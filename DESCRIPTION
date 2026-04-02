@@ -1,17 +1,24 @@
 Package: phreng
-Title: What the Package Does (One Line, Title Case)
+Title: A Common API for Persistent Homology Calculations
 Version: 0.0.0.9000
-Authors@R: 
-    person("Robert", "Ryan", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Authors@R: c(
+    person("Jason Cory", "Brunson", email = "cornelioid@gmail.com", role = c("aut", "cre"), comment= c(ORCID = "0000-0003-3126-9494")),
+    person("Robert", "Ryan", role = "aut"),
+    person("Ethan", "Borick", role = "aut"),
+    person("Alexia", "Corvado", role = "aut"),
+    person("Megan", "Sin", role = "aut"))
+Description: An easy to use interface for calculating persistent homology where the user sets up a model specification without having to 
+    remember the different argument names across the engines TDA and ripserr. It is part of the 'TDAverse' suite of packages, which is 
+    designed to provide a collection of packages for enabling machine learning and data science tasks using persistent homology.
+URL: https://github.com/bobbyryan215/phreng
+BugReports: https://github.com/bobbyryan215/phreng/issues
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
 Imports:
-    S7
-Depends:
-    phutil,
+    S7,
     stringr,
-    snakecase
+    snakecase,
+    phutil
 Suggests:
     TDA,
     ripserr
