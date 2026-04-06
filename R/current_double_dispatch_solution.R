@@ -28,7 +28,7 @@ engine_type <- new_property(
     if (  !(value %in% c("TDA","ripserr")) )
       "must be TDA or ripserr"
   },
-  default ="TDA"
+  default ="ripserr"
 )
 
 library_type <- new_property(
@@ -66,6 +66,37 @@ max_scale_type = new_property(
   default = NA_real_
 )
 
+#' @title Classes for persistent homology specifications
+#'
+#' @description These class define the parameters needed for persistence
+#'  calculations and allow for reuse of specification for different data sets.
+#'  The parent class, `PH`, stores core attributes that are common among all
+#'  persistence calculations. The point cloud subclass is used to handle
+#'  distance matrices and point cloud arrays. The raster subclass is used
+#'  to handle grid data encoded as matrices or arrays.
+#'
+#' @param filtration filtration used in persistence calculation
+#' @param engine back-end engine used in persistence calculation
+#' @param library c++ library used for TDA engine
+#' @param max_dimension maximum homological dimension to compute persistence
+#'
+#' @return S7 object storing user specification for calculating persistence
+#'
+#' @examples
+#'
+#' pc <- PH_pointcloud(filtration = "vietoris_rips",
+#'               engine = "ripserr",
+#'               max_dimension = 1,
+#'               max_diameter = 1)
+#'
+#' r <- PH_raster(filtration = "cubical",
+#'           engine = "TDA",
+#'           library = "GUDHI",
+#'           max_dimension = 2,
+#'           max_scale = 10,
+#'           sublevel = TRUE)
+#' @rdname ph_classes
+#' @export
 PH <- new_class("PH",
                 properties = list(
                   filtration = filtration_type,
@@ -79,6 +110,9 @@ PH <- new_class("PH",
                 }
 )
 
+#' @param max_diameter maximum threshold for rips filtration (point clouds)
+#' @rdname ph_classes
+#' @export
 PH_pointcloud <-  new_class("PH_pointcloud", parent = PH,
                             properties = list(
                               max_radius = max_radius_type,
@@ -90,6 +124,10 @@ PH_pointcloud <-  new_class("PH_pointcloud", parent = PH,
                             }
 )
 
+#' @param max_scale maximum threshold for rips filtration (rasters)
+#' @param sublevel specifies sublevel or superlevel filtration
+#' @rdname ph_classes
+#' @export
 PH_raster <- new_class("PH_raster", parent = PH,
                        properties = list(
                          max_scale = max_scale_type,
@@ -103,6 +141,35 @@ PH_raster <- new_class("PH_raster", parent = PH,
 
 dist_class <- new_S3_class("dist")
 
+#' @title Compute Persistent Homology
+#'
+#' @description This function is an S7 generic which dispatches based on
+#'  the user specification and the class of the data. The function standardizes
+#'  output by converting it to a `persistence` object.
+#'
+#' @param object user specification
+#' @param data object on which to compute persistent homology
+#'
+#' @return class `persistence` object
+#'
+#' @examples
+#'
+#' obj <- PH_pointcloud(filtration = "vietoris_rips",
+#'               engine = "ripserr",
+#'               max_dimension = 1,
+#'               max_diameter = 1)
+#' data <- matrix(rnorm(30), ncol = 3)
+#' compute_persistence(obj, data)
+#'
+#' obj <- PH_raster(filtration = "cubical",
+#'           engine = "TDA",
+#'           library = "GUDHI",
+#'           max_dimension = 2,
+#'           max_scale = 10,
+#'           sublevel = TRUE)
+#' data <- volcano
+#' compute_persistence(obj, data)
+#' @export
 compute_persistence <- new_generic("compute_persistence", c("object","data"))
 
 method(compute_persistence, list(PH_pointcloud, dist_class)) <- function(object, data) {
