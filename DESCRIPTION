@@ -12,7 +12,7 @@ Description: An easy to use interface for calculating persistent homology where 
     designed to provide a collection of packages for enabling machine learning and data science tasks using persistent homology.
 URL: https://github.com/bobbyryan215/phreng
 BugReports: https://github.com/bobbyryan215/phreng/issues
-License: use_mit_license()
+License: MIT + file LICENSE
 Imports:
     S7,
     stringr,
