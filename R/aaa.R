@@ -1,17 +1,28 @@
-#' importFrom S7 new_property
-new_property <- S7::new_property
-class_character <- S7::class_character
-class_double <- S7::class_double
-new_class <- S7::new_class
-class_logical <- S7::class_logical
-new_S3_class <- S7::new_S3_class
-new_generic <- S7::new_generic
-`method<-` <- S7::`method<-`
-
-# REVIEW: Is it necessary to redefine e.g. `S7::class_double`? (or is it better
-# to import them instead?)
-
-# Be sure to prefix tags with `@` where necessary.
-
-# Import all needed for source code; export only those user will need (or those
-# necessary to pass tests).
+#' @importFrom phutil as_persistence
+#' @export
+as_persistence
+#' @importFrom S7 new_property
+#' @export
+new_property
+#' @importFrom S7 class_character
+#' @export
+class_character
+#' @importFrom S7 class_double
+#' @export
+class_double
+#' @importFrom S7 new_class
+#' @export
+new_class
+#' @importFrom S7 class_logical
+#' @export
+class_logical
+#' @importFrom S7 new_S3_class
+#' @export
+new_S3_class
+#' @importFrom S7 new_generic
+#' @export
+new_generic
+#' @importFrom S7 `method<-`
+#' @export
+`method<-`
+>>>>>>> 4b71ab0 (fix: updated source code and imports)

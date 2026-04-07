@@ -19,21 +19,3 @@ This function is an S7 generic which dispatches based on
 the user specification and the class of the data. The function standardizes
 output by converting it to a \code{persistence} object.
 }
-\examples{
-
-obj <- PH_pointcloud(filtration = "vietoris_rips",
-              engine = "ripserr",
-              max_dimension = 1,
-              max_diameter = 1)
-data <- matrix(rnorm(30), ncol = 3)
-compute_persistence(obj, data)
-
-obj <- PH_raster(filtration = "cubical",
-          engine = "TDA",
-          library = "GUDHI",
-          max_dimension = 2,
-          max_scale = 10,
-          sublevel = TRUE)
-data <- volcano
-compute_persistence(obj, data)
-}

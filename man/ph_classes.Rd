@@ -56,17 +56,3 @@ persistence calculations. The point cloud subclass is used to handle
 distance matrices and point cloud arrays. The raster subclass is used
 to handle grid data encoded as matrices or arrays.
 }
-\examples{
-
-pc <- PH_pointcloud(filtration = "vietoris_rips",
-              engine = "ripserr",
-              max_dimension = 1,
-              max_diameter = 1)
-
-r <- PH_raster(filtration = "cubical",
-          engine = "TDA",
-          library = "GUDHI",
-          max_dimension = 2,
-          max_scale = 10,
-          sublevel = TRUE)
-}
