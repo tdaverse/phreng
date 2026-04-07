@@ -178,7 +178,7 @@ method(compute_persistence, list(PH_pointcloud, dist_class)) <- function(object,
     res <-  vietoris_rips(
       data,
       max_dim = object@max_dimension,
-      threshold = ifelse(is.na(object@max_diameter), 0, object@max_diameter)
+      threshold = ifelse(is.na(object@max_diameter), max(data), object@max_diameter)
     ) |> as_persistence()
   }
   else if (object@engine == "TDA") {
@@ -188,7 +188,7 @@ method(compute_persistence, list(PH_pointcloud, dist_class)) <- function(object,
         library = ifelse(is.na(object@library), "GUDHI", object@library),
         maxdimension = object@max_dimension,
         dist = "arbitrary",
-        maxscale = ifelse(is.na(object@max_diameter), 0, object@max_diameter)
+        maxscale = ifelse(is.na(object@max_diameter), max(data), object@max_diameter)
       ) |> as_persistence()
     }
     if (object@filtration == "alpha_complex") {
@@ -216,7 +216,7 @@ method(compute_persistence, list(PH_pointcloud, class_double)) <- function(objec
       res <- vietoris_rips(
         data,
         max_dim = object@max_dimension,
-        threshold = ifelse(is.na(object@max_diameter), 0, object@max_diameter)
+        threshold = ifelse(is.na(object@max_diameter), max(dist(data)), object@max_diameter)
       ) |> as_persistence()
     }
     else if (object@engine == "TDA") {
@@ -225,7 +225,7 @@ method(compute_persistence, list(PH_pointcloud, class_double)) <- function(objec
           data,
           library = ifelse(is.na(object@library), "GUDHI", object@library),
           maxdimension = object@max_dimension,
-          maxscale = ifelse(is.na(object@max_diameter), 0, object@max_diameter)
+          maxscale = ifelse(is.na(object@max_diameter), max(dist(data)), object@max_diameter)
         ) |> as_persistence()
       }
       if (object@filtration == "alpha_complex") {
@@ -256,7 +256,7 @@ method(compute_persistence, list(PH_raster, class_double)) <- function(object, d
     if (object@engine == "ripserr") {
       res <- cubical(
         data,
-        threshold = ifelse(is.na(object@max_scale), 0, object@max_scale)
+        threshold = ifelse(is.na(object@max_scale), max(dist(data)), object@max_scale)
       ) |> as_persistence()
     }
     else if (object@engine == "TDA") {
