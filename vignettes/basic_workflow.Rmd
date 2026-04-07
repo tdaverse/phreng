@@ -1,0 +1,50 @@
+---
+title: "basic_workflow"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{basic_workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(phreng)
+library(TDA)
+library(ripserr)
+``` 
+
+
+This vignette introduces the basic workflow for computing persistence homology in {phreng}. The user 
+will need to call two function. The first function creates a specification that outlines which type 
+of data object and method for computing persistence are being used. The second function takes 
+specification from the first function and the data you are using to compute persistence.
+
+We will first work with raster data.
+```{r}
+model1 <- PH_raster(filtration = "cubical", engine = "ripserr")
+model2 <- PH_raster(filtration = "cubical", engine = "TDA")
+model1
+model2
+```
+We can see that this specification chooses what engine or R package will be used to compute the persistence.
+It also chooses which filtration the computation will use. There are other options the user can specify such
+as maximum dimension of the homology or maximum scale of the filtration. 
+
+We can now compute the persistence.
+```{r}
+out1 <- compute_persistence(model1, volcano)
+out2 <- compute_persistence(model2, volcano)
+print(as.data.frame(out1))
+print(as.data.frame(out2))
+```
+
+
+
+
