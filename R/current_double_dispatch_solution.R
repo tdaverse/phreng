@@ -142,7 +142,7 @@ PH_raster <- new_class("PH_raster", parent = PH,
                        }
 )
 
-dist_class <- new_S3_class("dist")
+class_dist <- new_S3_class("dist")
 
 #' @title Compute Persistent Homology
 #'
@@ -175,14 +175,14 @@ dist_class <- new_S3_class("dist")
 #' @export
 compute_persistence <- new_generic("compute_persistence", c("object","data"))
 
-method(compute_persistence, list(PH_pointcloud, dist_class)) <- function(object, data) {
+method(compute_persistence, list(PH_pointcloud, class_dist)) <- function(object, data) {
   res <- NULL
   if (object@engine == "ripserr") {
     res <-  vietoris_rips(
       data,
       max_dim = object@max_dimension,
       threshold = ifelse(is.na(object@max_diameter), max(data), object@max_diameter)
-    ) |> as_persistence()
+    )
   }
   else if (object@engine == "TDA") {
     if (object@filtration == "vietoris_rips") {
@@ -192,23 +192,24 @@ method(compute_persistence, list(PH_pointcloud, dist_class)) <- function(object,
         maxdimension = object@max_dimension,
         dist = "arbitrary",
         maxscale = ifelse(is.na(object@max_diameter), max(data), object@max_diameter)
-      ) |> as_persistence()
+      )
     }
     if (object@filtration == "alpha_complex") {
       res<- alphaComplexDiag(
         data,
         library = ifelse(is.na(object@library), c("GUDHI", "Dionysus"), object@library),
         maxdimension = object@max_dimension
-      ) |> as_persistence()
+      )
     }
     if (object@filtration == "alpha_shape") {
       res<-alphaShapeDiag(
         data,
         library = ifelse(is.na(object@library), c("GUDHI", "Dionysus"), object@library),
         maxdimension = object@max_dimension
-      ) |> as_persistence()
+      )
     }
   }
+  res <- as_persistence(res)
   res
 }
 
@@ -220,7 +221,7 @@ method(compute_persistence, list(PH_pointcloud, class_double)) <- function(objec
         data,
         max_dim = object@max_dimension,
         threshold = ifelse(is.na(object@max_diameter), max(dist(data)), object@max_diameter)
-      ) |> as_persistence()
+      )
     }
     else if (object@engine == "TDA") {
       if (object@filtration == "vietoris_rips") {
@@ -229,23 +230,24 @@ method(compute_persistence, list(PH_pointcloud, class_double)) <- function(objec
           library = ifelse(is.na(object@library), "GUDHI", object@library),
           maxdimension = object@max_dimension,
           maxscale = ifelse(is.na(object@max_diameter), max(dist(data)), object@max_diameter)
-        ) |> as_persistence()
+        )
       }
       if (object@filtration == "alpha_complex") {
         res<- alphaComplexDiag(
           data,
           library = ifelse(is.na(object@library), c("GUDHI", "Dionysus"), object@library),
           maxdimension = object@max_dimension
-        ) |> as_persistence()
+        )
       }
       if (object@filtration == "alpha_shape") {
         res <- alphaShapeDiag(
           data,
           library = ifelse(is.na(object@library), c("GUDHI", "Dionysus"), object@library),
           maxdimension = object@max_dimension
-        ) |> as_persistence()
+        )
       }
     }
+    res <- as_persistence(res)
     res
   }
   else {
@@ -260,7 +262,7 @@ method(compute_persistence, list(PH_raster, class_double)) <- function(object, d
       res <- cubical(
         data,
         threshold = ifelse(is.na(object@max_scale), max(dist(data)), object@max_scale)
-      ) |> as_persistence()
+      )
     }
     else if (object@engine == "TDA") {
       res <- gridDiag(
@@ -268,8 +270,9 @@ method(compute_persistence, list(PH_raster, class_double)) <- function(object, d
         library = ifelse(is.na(object@library), "GUDHI", object@library),
         sublevel = object@sublevel,
         maxdimension = object@max_dimension
-      ) |> as_persistence()
+      )
     }
+    res <- as_persistence(res)
     res
   }
   else {
