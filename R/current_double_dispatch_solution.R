@@ -1,4 +1,7 @@
 #' include aaa.r
+#' @importFrom phutil as_persistence
+#' @importFrom stringr str_detect
+#' @importFrom snakecase to_snake_case
 
 filtration_type <- new_property(
   class = class_character,
