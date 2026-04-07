@@ -15,7 +15,7 @@ as.data.frame(result)
 
 # with ripserr
 ## vietoris_rips filtration 
-## library, max_dimension specifications not necessary when engine is ripserr 
+## library specification not necessary when engine is ripserr 
 x <- PH_pointcloud(
   engine = "ripserr", 
   library = ,
