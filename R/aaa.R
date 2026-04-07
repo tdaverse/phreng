@@ -25,4 +25,3 @@ new_generic
 #' @importFrom S7 `method<-`
 #' @export
 `method<-`
->>>>>>> 4b71ab0 (fix: updated source code and imports)
