@@ -8,6 +8,9 @@ spec <- PH_pointcloud(
 
 # constructor test
 
+# REVIEW: Is there a standard way to test S7 class inheritance (different from
+# this)?
+# expect_true(inherits(spec, "phreng::PH_pointcloud"))
 expect_inherits(spec, "phreng::PH_pointcloud")
 expect_inherits(spec, "phreng::PH")
 expect_equal(spec@filtration, "vietoris_rips")
@@ -18,6 +21,8 @@ expect_equal(spec@max_radius, 1)
 
 
 # validator tests
+
+# ADVICE: Test for short, keyword character strings, in case phrasing changes.
 
 expect_error(
   PH_pointcloud(engine = "bad_engine"),
@@ -39,6 +44,7 @@ expect_error(
   "must be a non-negative integer"
 )
 
+# ADVICE: Use back-ticks to refer to objects, e.g. `library`.
 expect_error(
   PH_pointcloud(engine = "ripserr", library = "GUDHI"),
   "Library is only defined when engine is TDA"
@@ -59,6 +65,9 @@ expect_equal(
 
 
 # compute test
+
+# REVIEW: Is there a standard way to require that a package is installed?
+# e.g. with {testthat}, i use `skip_if_not_installed()`.
 
 if (requireNamespace("ripserr", quietly = TRUE) &&
     requireNamespace("phutil", quietly = TRUE)) {

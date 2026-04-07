@@ -15,6 +15,12 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
+# ADVICE: Eventually vignette should require packages but not attach them.
+
+# Use `\VignetteDepends{}` in the front matter to indicate that they'll be used
+# (maybe only if not in 'DESCRIPTION').
+
+# Use the index entry as the file name.
 library(phreng)
 library(TDA)
 library(ripserr)

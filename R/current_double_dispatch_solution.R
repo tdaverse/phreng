@@ -1,7 +1,14 @@
+# ADVICE: Break up source code into thematic / coherent chunks.
+
+# REVIEW: Check that `@` is used where needed, e.g. `include`.
+
 #' include aaa.r
 #' @importFrom phutil as_persistence
 #' @importFrom stringr str_detect
 #' @importFrom snakecase to_snake_case
+
+# REVIEW: OK to use double-colon e.g. `snakecase::to_snake_case()` in source
+# code if only used once; otherwise, import it.
 
 filtration_type <- new_property(
   class = class_character,
@@ -13,6 +20,10 @@ filtration_type <- new_property(
   },
   default = "vietoris_rips"
 )
+
+# REVIEW: Is there a way to make this `class_integer` without requiring the user
+# to write e.g. `max_dimension = 1L`?
+# Probably use `S7::class_numeric`?
 
 max_dimension_type <- new_property(
   class = class_double,
@@ -68,6 +79,15 @@ max_scale_type = new_property(
   class = class_double,
   default = NA_real_
 )
+
+# ADVICE: Decide whether to include examples in {roxygen2} comments (below) or
+# in separate files in 'inst/examples' (not both). Figure out which of
+# `@example` or `@examples` to use.
+
+# ADVICE: Specify input type for each argument, e.g.
+# #' @param filtration Character; the ....
+
+# ADVICE: In source code, use line breaks to left-justify function bodies.
 
 #' @title Classes for persistent homology specifications
 #'
@@ -174,6 +194,12 @@ class_dist <- new_S3_class("dist")
 #' compute_persistence(obj, data)
 #' @export
 compute_persistence <- new_generic("compute_persistence", c("object","data"))
+
+# ADVICE: Use double-colon operator to call required packages that may not be
+# attached e.g. `ripserr::vietoris_rips()`.
+
+# REVIEW: Can we set up conditionals to use an alternative package if the
+# requested package is not installed? (Should we do this?)
 
 method(compute_persistence, list(PH_pointcloud, class_dist)) <- function(object, data) {
   res <- NULL
