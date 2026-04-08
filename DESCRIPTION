@@ -8,7 +8,7 @@ Authors@R: c(
     person("Alexia", "Cordova", role = "aut"),
     person("Megan", "Sin", role = "aut"))
 Description: An easy to use interface for calculating persistent homology where the user sets up a model specification without having to 
-    remember the different argument names across the engines TDA and ripserr. It is part of the 'TDAverse' suite of packages, which is 
+    remember the different argument names across the engines `TDA` and `ripserr`. It is part of the 'TDAverse' suite of packages, which is 
     designed to provide a collection of packages for enabling machine learning and data science tasks using persistent homology.
 URL: https://github.com/bobbyryan215/phreng
 BugReports: https://github.com/bobbyryan215/phreng/issues
