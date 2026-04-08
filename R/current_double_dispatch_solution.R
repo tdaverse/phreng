@@ -4,9 +4,6 @@
 
 #' @include aaa.r
 
-# REVIEW: OK to use double-colon e.g. `snakecase::to_snake_case()` in source
-# code if only used once; otherwise, import it.
-
 filtration_type <- new_property(
   class = class_character,
   validator = function(value) {
@@ -166,6 +163,7 @@ compute_persistence <- new_generic("compute_persistence", c("object","data"))
 # requested package is not installed? (Should we do this?)
 
 method(compute_persistence, list(PH_pointcloud, class_dist)) <- function(object, data) {
+  check_packages(object)
   res <- NULL
   if (object@engine == "ripserr") {
     res <- ripserr::vietoris_rips(
@@ -204,6 +202,7 @@ method(compute_persistence, list(PH_pointcloud, class_dist)) <- function(object,
 }
 
 method(compute_persistence, list(PH_pointcloud, class_double)) <- function(object, data) {
+  check_packages(object)
   res <- NULL
   if (is.matrix(data) | is.array(data)) {
     if (object@engine == "ripserr") {
@@ -241,11 +240,12 @@ method(compute_persistence, list(PH_pointcloud, class_double)) <- function(objec
     res
   }
   else {
-    return("Data must be a matrix or an array for PH_pointcloud")
+    stop("Data must be a matrix or an array for PH_pointcloud")
   }
 }
 
 method(compute_persistence, list(PH_raster, class_double)) <- function(object, data) {
+  check_packages(object)
   res <- NULL
   if (is.matrix(data) | is.array(data)) {
     if (object@engine == "ripserr") {
@@ -266,7 +266,7 @@ method(compute_persistence, list(PH_raster, class_double)) <- function(object, d
     res
   }
   else {
-    return("Data must be a matrix or an array for PH_pointcloud")
+    stop("Data must be a matrix or an array for PH_pointcloud")
   }
 }
 
