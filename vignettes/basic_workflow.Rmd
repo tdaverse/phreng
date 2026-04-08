@@ -1,8 +1,8 @@
 ---
-title: "basic_workflow"
+title: "Basic `phreng` Workflow"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{basic_workflow}
+  %\VignetteIndexEntry{Basic `phreng` Workflow}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -15,42 +15,45 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-# ADVICE: Eventually vignette should require packages but not attach them.
-
-# Use `\VignetteDepends{}` in the front matter to indicate that they'll be used
-# (maybe only if not in 'DESCRIPTION').
-
-# Use the index entry as the file name.
 library(phreng)
-library(TDA)
-library(ripserr)
 ``` 
 
 
-This vignette introduces the basic workflow for computing persistence homology in {phreng}. The user 
-will need to call two function. The first function creates a specification that outlines which type 
-of data object and method for computing persistence are being used. The second function takes 
-specification from the first function and the data you are using to compute persistence.
+This vignette introduces the basic workflow for computing persistence homology in `phreng`. The user  will need to call two function. The first function creates a specification that outlines which type of data object and method for computing persistence are being used. The second function takes the  specification from the first function and the data you are using to compute persistence.
 
-We will first work with raster data.
+## Example Workflow
+
+Two specifications designed for point cloud data will be created.
 ```{r}
-model1 <- PH_raster(filtration = "cubical", engine = "ripserr")
-model2 <- PH_raster(filtration = "cubical", engine = "TDA")
-model1
-model2
+model1 <- PH_pointcloud(filtration = "vietoris_rips", engine = "ripserr", max_dimension = 2)
+model2 <- PH_pointcloud(filtration = "vietoris_rips", engine = "TDA", max_dimension = 2)
 ```
-We can see that this specification chooses what engine or R package will be used to compute the persistence.
-It also chooses which filtration the computation will use. There are other options the user can specify such
-as maximum dimension of the homology or maximum scale of the filtration. 
+This specification chooses which R package, called engine, will be used to compute the persistence. It also chooses which filtration the computation will implement. There are other options the user can specify such as maximum scale of the filtration or which `TDA` library to be use. 
 
-We can now compute the persistence.
+The persistence computation will now be completed. The data set noisy_circle_points will be used as the example point cloud data.
 ```{r}
-out1 <- compute_persistence(model1, volcano)
-out2 <- compute_persistence(model2, volcano)
-print(as.data.frame(out1))
-print(as.data.frame(out2))
+out1 <- compute_persistence(model1, phutil::noisy_circle_points)
+out2 <- compute_persistence(model2, phutil::noisy_circle_points)
+out1
+out2
+```
+There may be minor differences between these two outputs, but these are due to implementation differences between packages. The same workflow can be replicated with the other available `PH_<math object>` specifications such as `PH_pointcloud`.
+
+## Updating Specifications
+
+This package is designed using `S7` meaning that the specifications defined by `PH_<math object>` are `S7` objects. After a specification has been defined, it can be updated using the @ operator. 
+```{r}
+model1@max_dimension <- 1
+model2@max_dimension <- 1
 ```
 
 
+After updates are made, the calculations can be rerun. Now only homological features of dimension 0 and 1 will be include in the calcualtion. 
+```{r}
+out12 <- compute_persistence(model1, phutil::noisy_circle_points)
+out22 <- compute_persistence(model2, phutil::noisy_circle_points)
+out12
+out22
+```
 
 
