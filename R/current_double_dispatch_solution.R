@@ -2,7 +2,7 @@
 
 # REVIEW: Check that `@` is used where needed, e.g. `include`.
 
-#' include aaa.r
+#' @include aaa.r
 
 # REVIEW: OK to use double-colon e.g. `snakecase::to_snake_case()` in source
 # code if only used once; otherwise, import it.
@@ -18,16 +18,13 @@ filtration_type <- new_property(
   default = "vietoris_rips"
 )
 
-# REVIEW: Is there a way to make this `class_integer` without requiring the user
-# to write e.g. `max_dimension = 1L`?
-# Probably use `S7::class_numeric`?
 
 max_dimension_type <- new_property(
-  class = class_double,
+  class = class_numeric,
   validator = function(value) {
     if (!is.na(value) & value < 0)
       "must be a non-negative integer"
-    if (value %% 1 != 0)
+    else if (value %% 1 != 0)
       "must be a non-negative integer"
   },
   default = 1
@@ -52,12 +49,12 @@ library_type <- new_property(
 )
 
 max_diameter_type <- new_property(
-  class = class_double,
+  class = class_numeric,
   default = NA_real_)
 
 
 max_radius_type <- new_property(
-  class = class_double,
+  class = class_numeric,
   getter = function(self) {
     self@max_diameter/2
   }
@@ -73,7 +70,7 @@ sublevel_type <- new_property(
 )
 
 max_scale_type <- new_property(
-  class = class_double,
+  class = class_numeric,
   default = NA_real_
 )
 

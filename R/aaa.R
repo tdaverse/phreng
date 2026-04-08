@@ -16,6 +16,9 @@ new_class
 #' @importFrom S7 class_logical
 #' @export
 class_logical
+#' @importFrom S7 class_numeric
+#' @export
+class_numeric
 #' @importFrom S7 new_S3_class
 #' @export
 new_S3_class
