@@ -1,4 +1,5 @@
 #' @include aaa.R
+#' @include ph_classes.R
 
 class_dist <- new_S3_class("dist")
 
@@ -10,6 +11,7 @@ class_dist <- new_S3_class("dist")
 #'
 #' @param object user specification
 #' @param data object on which to compute persistent homology
+#' @param ... additional engine-specific arguments
 #'
 #' @return class `persistence` object
 #' @export

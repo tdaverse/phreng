@@ -2,7 +2,7 @@
 
 # REVIEW: Check that `@` is used where needed, e.g. `include`.
 
-#' @include aaa.r
+#' @include aaa.R
 
 filtration_type <- new_property(
   class = class_character,
@@ -107,7 +107,7 @@ PH <- new_class(
   validator = function(self) {
     if (self@engine == "ripserr" & !is.na(self@library) ){
       paste0("Library is only defined when engine is TDA. Please leave library ",
-              "blank or NA_character_ when using the ripserr engine.")
+             "blank or NA_character_ when using the ripserr engine.")
     }
   }
 )

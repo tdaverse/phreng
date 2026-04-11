@@ -1,4 +1,4 @@
-#' @include aaa.r
+#' @include aaa.R
 
 filtration_type <- new_property(
   class = class_character,

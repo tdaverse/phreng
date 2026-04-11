@@ -15,15 +15,21 @@ BugReports: https://github.com/bobbyryan215/phreng/issues
 License: MIT + file LICENSE
 Imports:
     S7,
-    stringr,
-    snakecase,
     phutil
 Suggests:
     TDA,
     ripserr,
     knitr,
-    rmarkdown
+    rmarkdown,
+    tinytest
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 VignetteBuilder: knitr
+Collate: 
+    'aaa.R'
+    'properties.R'
+    'ph_classes.R'
+    'compute_persistence.R'
+    'current_double_dispatch_solution.R'
+    'package_check.R'

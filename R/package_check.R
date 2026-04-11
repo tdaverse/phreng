@@ -3,8 +3,8 @@
 #' @description This function prints an error when the user does not have the
 #'    required packages installed. It directs the user to install the packages.
 #'
-#' @param object
-#' @NoRd
+#' @param object object to check
+#' @noRd
 
 
 
