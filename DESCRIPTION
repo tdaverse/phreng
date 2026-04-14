@@ -31,5 +31,4 @@ Collate:
     'properties.R'
     'ph_classes.R'
     'compute_persistence.R'
-    'current_double_dispatch_solution.R'
     'package_check.R'
