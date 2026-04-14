@@ -35,7 +35,7 @@ method(compute_persistence, list(PH_pointcloud, class_dist)) <- function(object,
     if (object@filtration == "vietoris_rips") {
       res <- TDA::ripsDiag(
         data,
-        library = ifelse(is.na(object@library), "GUDHI", object@library),
+        library = ifelse(is.na(object@library), "Dionysus", object@library),
         maxdimension = object@max_dimension,
         dist = "arbitrary",
         maxscale = ifelse(is.na(object@max_diameter), max(data), object@max_diameter)
@@ -75,6 +75,7 @@ method(compute_persistence, list(PH_pointcloud, class_double)) <- function(objec
       if (object@filtration == "vietoris_rips") {
         res <- TDA::ripsDiag(
           data,
+          dist = "euclidean",
           library = ifelse(is.na(object@library), "GUDHI", object@library),
           maxdimension = object@max_dimension,
           maxscale = ifelse(is.na(object@max_diameter), max(dist(data)), object@max_diameter)
