@@ -27,8 +27,8 @@ PH <- new_class(
     max_dimension = max_dimension_type),
   validator = function(self) {
     if (self@engine == "ripserr" & !is.na(self@library) ){
-      paste0("Library is only defined when engine is TDA. Please leave library ",
-             "blank or NA_character_ when using the ripserr engine.")
+      paste0("Library is only defined when engine is `TDA`. Please leave library ",
+             "blank or `NA_character_` when using the ripserr engine.")
     }
   }
 )
@@ -48,8 +48,15 @@ PH_pointcloud <- new_class(
          self@filtration=="alpha_shape")){
       paste0(
         "Alpha complexes are only defined for the ",
-        "engine TDA using point clouds. Please use ",
-        "library TDA for any alpha filtration")
+        "engine `TDA` using point clouds. Please use ",
+        "library `TDA` for any alpha filtration.")
+    }
+    else if (self@filtration == "cubical"){
+      paste0(
+        "Cubical filtrations are only defined for ",
+        "raster objects. Please select a different ",
+        "filtration such as `vietoris_rips`, `alpha_shape` ",
+        "or `alpha_complex`.")
     }
   }
 )
@@ -67,7 +74,7 @@ PH_raster <- new_class(
   validator = function(self) {
     if (self@filtration != "cubical") {
       paste0("Only cubical filtrations are allowed for ",
-             "raster objects")
+             "raster objects.")
     }
   }
 )
