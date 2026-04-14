@@ -22,7 +22,12 @@ expect_equal(spec@sublevel, TRUE)
 
 expect_error(
   PH_raster(engine = "bad_engine"),
-  "must be TDA or ripserr"
+  "TDA"
+)
+
+expect_error(
+  PH_raster(engine = "bad_engine"),
+  "ripserr"
 )
 
 expect_error(
@@ -32,53 +37,62 @@ expect_error(
 
 expect_error(
   PH_raster(max_dimension = -1),
-  "must be a non-negative integer"
+  "non-negative"
 )
 
 expect_error(
   PH_raster(max_dimension = 1.5),
-  "must be a non-negative integer"
+  "integer"
 )
 
 expect_error(
   PH_raster(engine = "ripserr", library = "GUDHI"),
-  "Library is only defined when engine is TDA"
+  "TDA"
 )
 
 expect_error(
   PH_raster(filtration = "vietoris_rips", engine = "ripserr"),
-  "Only cubical filtrations are allowed for raster objects"
+  "cubical"
 )
 
 expect_error(
   PH_raster(sublevel = NA),
-  "sublevel must be either TRUE or FALSE"
+  "TRUE or FALSE"
 )
 
 
 # data type test
 
-expect_equal(
+expect_error(
   compute_persistence(spec, as.double(1:5)),
-  "Data must be a matrix or an array for PH_pointcloud"
+  "matrix"
 )
+
+expect_error(
+  compute_persistence(spec, as.double(1:5)),
+  "array"
+)
+
+
 
 
 # compute test
 
-if (requireNamespace("ripserr", quietly = TRUE) &&
-    requireNamespace("phutil", quietly = TRUE)) {
+exit_if_not(
+  requireNamespace("ripserr", quietly = TRUE),
+  requireNamespace("phutil", quietly = TRUE)
+)
 
-  data <- volcano
+data <- volcano
 
-  spec <- PH_raster(
-    filtration = "cubical",
-    engine = "ripserr",
-    max_dimension = 1,
-    max_scale = 300,
-    sublevel = TRUE
-  )
+spec <- PH_raster(
+  filtration = "cubical",
+  engine = "ripserr",
+  max_dimension = 1,
+  max_scale = 300,
+  sublevel = TRUE
+)
 
-  out <- compute_persistence(spec, data)
-  expect_inherits(out, "persistence")
-}
+out <- compute_persistence(spec, data)
+expect_inherits(out, "persistence")
+

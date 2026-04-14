@@ -272,7 +272,7 @@ method(compute_persistence, list(PH_raster, class_double)) <- function(object, d
     res
   }
   else {
-    stop("Data must be a matrix or an array for PH_pointcloud")
+    stop("Data must be a matrix or an array for PH_raster")
   }
 }
 
