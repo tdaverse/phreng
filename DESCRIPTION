@@ -15,7 +15,9 @@ BugReports: https://github.com/bobbyryan215/phreng/issues
 License: MIT + file LICENSE
 Imports:
     S7,
-    phutil
+    phutil,
+    stringr,
+    snakecase
 Suggests:
     TDA,
     ripserr,
