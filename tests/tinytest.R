@@ -1,12 +1,3 @@
-# in the meantime
 if (requireNamespace("tinytest", quietly = TRUE)) {
-  tinytest::test_all()
+tinytest::test_package("phreng")
 }
-
-
-# use when phreng package is installed
-#if (requireNamespace("tinytest", quietly = TRUE)) {
-#tinytest::test_package("phreng")
-#}
-
-
