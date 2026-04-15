@@ -41,19 +41,9 @@ method(compute_persistence, list(PH_pointcloud, class_dist)) <- function(object,
         maxscale = ifelse(is.na(object@max_diameter), max(data), object@max_diameter)
       )
     }
-    if (object@filtration == "alpha_complex") {
-      res<- TDA::alphaComplexDiag(
-        data,
-        library = ifelse(is.na(object@library), c("GUDHI", "Dionysus"), object@library),
-        maxdimension = object@max_dimension
-      )
-    }
-    if (object@filtration == "alpha_shape") {
-      res <- TDA::alphaShapeDiag(
-        data,
-        library = ifelse(is.na(object@library), c("GUDHI", "Dionysus"), object@library),
-        maxdimension = object@max_dimension
-      )
+    if (object@filtration == "alpha_complex" || object@filtration == "alpha_shape") {
+      stop(paste("`alpha_shape` and `alpha_complex` filtrations are not currently",
+                 "supported for dist objects. Please choose a different filtration."))
     }
   }
   res <- as_persistence(res)
@@ -87,19 +77,30 @@ method(compute_persistence, list(PH_pointcloud, class_double)) <- function(objec
           library = ifelse(is.na(object@library), c("GUDHI", "Dionysus"), object@library),
           maxdimension = object@max_dimension
         )
+        if (!is.na(object@max_diameter)){
+          warning(paste("Currently `max_diameter` is not supported for `alpha_shape`",
+                        "and `alpha_complex` filtrations. The displayed output",
+                        "ignores the user entered `max_diameter`"))
+        }
       }
       if (object@filtration == "alpha_shape") {
         if(NCOL(data) != 3){
           stop(paste("Data must be 3 dimensional to compute persistent homology",
-          "using an alpha_shape filtration. Please choose a different filtration",
-          "and try again."))
+                     "using an `alpha_shape` filtration. Please choose a different filtration",
+                     "and try again."))
         }
         res <- TDA::alphaShapeDiag(
           data,
           library = ifelse(is.na(object@library), c("GUDHI", "Dionysus"), object@library),
           maxdimension = object@max_dimension
         )
+        if (!is.na(object@max_diameter)){
+          warning(paste("Currently `max_diameter` is not supported for `alpha_shape`",
+                        "and `alpha_complex` filtrations. The displayed output",
+                        "ignores the user entered `max_diameter`"))
+        }
       }
+
     }
     res <- as_persistence(res)
     res
