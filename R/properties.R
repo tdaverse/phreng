@@ -9,12 +9,10 @@ filtration_type <- new_property(
       "must be vietoris_rips, cubical, alpha_shape, or alpha_complex."
   },
   setter = function(self, value) {
-    ret <- snakecase::to_snake_case(value)
-    ret
+    return(snakecase::to_snake_case(value))
   },
   default = "vietoris_rips"
 )
-help(new_property)
 
 max_dimension_type <- new_property(
   class = class_numeric,
