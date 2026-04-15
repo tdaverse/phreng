@@ -9,7 +9,8 @@ filtration_type <- new_property(
       "must be vietoris_rips, cubical, alpha_shape, or alpha_complex."
   },
   setter = function(self, value) {
-    return(snakecase::to_snake_case(value))
+    prop(self, "filtration") <- snakecase::to_snake_case(value)
+    self
   },
   default = "vietoris_rips"
 )

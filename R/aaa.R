@@ -6,6 +6,9 @@ as_persistence
 new_property
 #' @importFrom S7 class_character
 #' @export
+`prop<-`
+#' @importFrom S7 `prop<-`
+#' @export
 class_character
 #' @importFrom S7 class_double
 #' @export
