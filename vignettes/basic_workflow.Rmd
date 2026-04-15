@@ -19,7 +19,7 @@ library(phreng)
 ``` 
 
 
-This vignette introduces the basic workflow for computing persistence homology in `phreng`. The user  will need to call two function. The first function creates a specification that outlines which type of data object and method for computing persistence are being used. The second function takes the  specification from the first function and the data you are using to compute persistence.
+This vignette introduces the basic workflow for computing persistence homology in `phreng`. The user  will need to call two functions. The first function creates a _specification_ that encapsulates which type of data object and method for computing persistence are being used. The second function takes the  specification from the first function and the data for which you are computing persistence.
 
 ## Example Workflow
 
@@ -28,9 +28,9 @@ Two specifications designed for point cloud data will be created.
 model1 <- PH_pointcloud(filtration = "vietoris_rips", engine = "ripserr", max_dimension = 2)
 model2 <- PH_pointcloud(filtration = "vietoris_rips", engine = "TDA", max_dimension = 2)
 ```
-This specification chooses which R package, called engine, will be used to compute the persistence. It also chooses which filtration the computation will implement. There are other options the user can specify such as maximum scale of the filtration or which `TDA` library to be use. 
+This specification chooses which R package and implementation, called the _engine_, will be used to compute the persistence. It also chooses which filtration the computation will implement. There are other options the user can specify such as maximum scale of the filtration or which `TDA` library to be use. 
 
-The persistence computation will now be completed. The data set noisy_circle_points will be used as the example point cloud data.
+The persistence computation will now be completed. The data set `noisy_circle_points` will be used as the example point cloud data.
 ```{r}
 out1 <- compute_persistence(model1, phutil::noisy_circle_points)
 out2 <- compute_persistence(model2, phutil::noisy_circle_points)
@@ -41,14 +41,14 @@ There may be minor differences between these two outputs, but these are due to i
 
 ## Updating Specifications
 
-This package is designed using `S7` meaning that the specifications defined by `PH_<math object>` are `S7` objects. After a specification has been defined, it can be updated using the @ operator. 
+This package is designed using `S7`, and the specifications defined by `PH_<math object>` are `S7` objects. After a specification has been defined, it can be updated using the @ operator. 
 ```{r}
 model1@max_dimension <- 1
 model2@max_dimension <- 1
 ```
 
 
-After updates are made, the calculations can be rerun. Now only homological features of dimension 0 and 1 will be include in the calcualtion. 
+After updates are made, the calculations can be rerun. Now only homological features of dimension 0 and 1 will be included in the calculation. 
 ```{r}
 out12 <- compute_persistence(model1, phutil::noisy_circle_points)
 out22 <- compute_persistence(model2, phutil::noisy_circle_points)
