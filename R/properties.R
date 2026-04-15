@@ -29,7 +29,7 @@ engine_type <- new_property(
     if (  !(value %in% c("TDA","ripserr")) )
       "must be `TDA` or `ripserr`."
   },
-  default ="ripserr"
+  default ="TDA"
 )
 
 library_type <- new_property(

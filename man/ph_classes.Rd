@@ -8,14 +8,14 @@
 \usage{
 PH(
   filtration = "vietoris_rips",
-  engine = "ripserr",
+  engine = "TDA",
   library = NA_character_,
   max_dimension = 1
 )
 
 PH_pointcloud(
   filtration = "vietoris_rips",
-  engine = "ripserr",
+  engine = "TDA",
   library = NA_character_,
   max_dimension = 1,
   max_diameter = NA_real_
@@ -23,7 +23,7 @@ PH_pointcloud(
 
 PH_raster(
   filtration = "vietoris_rips",
-  engine = "ripserr",
+  engine = "TDA",
   library = NA_character_,
   max_dimension = 1,
   max_scale = NA_real_,
