@@ -9,8 +9,9 @@ class_dist <- new_S3_class("dist")
 #'  the user specification and the class of the data. The function standardizes
 #'  output by converting it to a `persistence` object.
 #'
-#' @param object user specification
-#' @param data object on which to compute persistent homology
+#' @param object user specification of class [PH_pointcloud] or [PH_raster]
+#' @param data object on which to compute persistent homology, must be of a
+#'  class compatible with object
 #' @param ... additional engine-specific arguments
 #'
 #' @return class `persistence` object

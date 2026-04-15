@@ -7,9 +7,10 @@
 compute_persistence(object, data, ...)
 }
 \arguments{
-\item{object}{user specification}
+\item{object}{user specification of class \link{PH_pointcloud} or \link{PH_raster}}
 
-\item{data}{object on which to compute persistent homology}
+\item{data}{object on which to compute persistent homology, must be of a
+class compatible with object}
 
 \item{...}{additional engine-specific arguments}
 }

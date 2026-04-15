@@ -8,10 +8,10 @@ filtration_type <- new_property(
     if (!(TRUE %in% stringr::str_detect(valid_filtrations, val)))
       "must be vietoris_rips, cubical, alpha_shape, or alpha_complex."
   },
-  setter <- function(self, value) {
+  setter = function(self, value) {
     ret <- snakecase::to_snake_case(value)
     ret
-  }
+  },
   default = "vietoris_rips"
 )
 help(new_property)
