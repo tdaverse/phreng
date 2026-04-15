@@ -49,7 +49,7 @@ PH_pointcloud <- new_class(
       paste0(
         "Alpha complexes are only defined for the ",
         "engine `TDA` using point clouds. Please use ",
-        "library `TDA` for any alpha filtration.")
+        "engine `TDA` for any alpha filtration.")
     }
     else if (self@filtration == "cubical"){
       paste0(

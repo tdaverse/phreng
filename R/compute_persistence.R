@@ -89,6 +89,11 @@ method(compute_persistence, list(PH_pointcloud, class_double)) <- function(objec
         )
       }
       if (object@filtration == "alpha_shape") {
+        if(NCOL(data) != 3){
+          stop(paste("Data must be 3 dimensional to compute persistent homology",
+          "using an alpha_shape filtration. Please choose a different filtration",
+          "and try again."))
+        }
         res <- TDA::alphaShapeDiag(
           data,
           library = ifelse(is.na(object@library), c("GUDHI", "Dionysus"), object@library),
