@@ -17,7 +17,6 @@
 #'
 #' @return S7 object storing user specification for calculating persistence
 #' @rdname ph_classes
-#' @export
 PH <- new_class(
   "PH",
   properties = list(
