@@ -25,35 +25,42 @@ This vignette introduces the basic workflow for computing persistence homology i
 
 Two specifications designed for point cloud data will be created.
 ```{r}
-model1 <- PH_pointcloud(filtration = "vietoris_rips", engine = "ripserr", max_dimension = 2)
-model2 <- PH_pointcloud(filtration = "vietoris_rips", engine = "TDA", max_dimension = 2)
+spec1 <- PH_pointcloud(filtration = "vietoris_rips", engine = "ripserr", max_dimension = 2)
+spec2 <- PH_pointcloud(filtration = "vietoris_rips", engine = "TDA", max_dimension = 2)
 ```
-This specification chooses which R package and implementation, called the _engine_, will be used to compute the persistence. It also chooses which filtration the computation will implement. There are other options the user can specify such as maximum scale of the filtration or which `TDA` library to be use. 
+This specification chooses which R package and implementation, called the _engine_, will be used to compute the persistence. It also chooses which filtration the computation will implement. There are other options the user can specify such as maximum scale of the filtration or which `TDA` library to be used. 
 
 The persistence computation will now be completed. The data set `noisy_circle_points` will be used as the example point cloud data.
 ```{r}
-out1 <- compute_persistence(model1, phutil::noisy_circle_points)
-out2 <- compute_persistence(model2, phutil::noisy_circle_points)
-out1
-out2
+out1 <- compute_persistence(spec1, phutil::noisy_circle_points)
+out2 <- compute_persistence(spec2, phutil::noisy_circle_points)
+out1 
+out2 
 ```
-There may be minor differences between these two outputs, but these are due to implementation differences between packages. The same workflow can be replicated with the other available `PH_<math object>` specifications such as `PH_pointcloud`.
+
+This same workflow can be replicated with the other available `PH_<math object>` specifications such as `PH_raster`.
+
+### Equivalent Output with Minor Differences
+There may be some minor differences between implementations using a different _engine_. The output below shows the birth and death time of the 1 dimensional homological features. 
+```{r}
+out1$pairs[[2]]
+out2$pairs[[2]]
+```
+The values of the births and deaths are same until the $10^{-8}$ths place. Some minor differences are to be expected due to implementation differences between the packages.
 
 ## Updating Specifications
 
 This package is designed using `S7`, and the specifications defined by `PH_<math object>` are `S7` objects. After a specification has been defined, it can be updated using the @ operator. 
 ```{r}
-model1@max_dimension <- 1
-model2@max_dimension <- 1
+spec1@max_dimension <- 1
+spec2@max_dimension <- 1
 ```
 
 
 After updates are made, the calculations can be rerun. Now only homological features of dimension 0 and 1 will be included in the calculation. 
 ```{r}
-out12 <- compute_persistence(model1, phutil::noisy_circle_points)
-out22 <- compute_persistence(model2, phutil::noisy_circle_points)
-out12
-out22
+compute_persistence(spec1, phutil::noisy_circle_points)
+compute_persistence(spec2, phutil::noisy_circle_points)
 ```
 
 
