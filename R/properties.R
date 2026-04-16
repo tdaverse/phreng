@@ -1,5 +1,6 @@
 #' @include aaa.R
-
+#' @importFrom snakecase to_snake_case
+#' @importFrom stringr str_detect
 filtration_type <- new_property(
   class = class_character,
   validator = function(value) {

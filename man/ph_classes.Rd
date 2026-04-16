@@ -37,9 +37,11 @@ PH_raster(
 
 \item{library}{character; c++ library used for TDA engine}
 
-\item{max_dimension}{character; maximum homological dimension to compute persistence}
+\item{max_dimension}{character; maximum homological dimension to compute
+persistence}
 
-\item{max_diameter}{character; maximum threshold for rips filtration (point clouds)}
+\item{max_diameter}{character; maximum threshold for rips filtration
+(point clouds)}
 
 \item{max_scale}{character; maximum threshold for rips filtration (rasters)}
 
