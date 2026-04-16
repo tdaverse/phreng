@@ -7,9 +7,8 @@
 #' @noRd
 
 
-
-check_packages <- function(object){
-  if(object@engine == "ripserr"){
+check_packages <- function(object) {
+  if (object@engine == "ripserr") {
     if (!requireNamespace("ripserr", quietly = TRUE)) {
       stop(
         "Package `ripserr` is required when engine `ripserr` is selected \n",
@@ -17,7 +16,7 @@ check_packages <- function(object){
       )
     }
   }
-  if(object@engine == "TDA"){
+  if (object@engine == "TDA") {
     if (!requireNamespace("TDA", quietly = TRUE)) {
       stop(
         "Package `TDA` is required when engine `TDA` is selected \n",

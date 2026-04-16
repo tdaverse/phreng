@@ -1,28 +1,28 @@
 # using volcano dataset
 data <- volcano
 
-# with TDA 
+# with TDA
 ## cubical filtration
 x <- PH_raster(
-  filtration = "cubical", 
-  engine = "TDA", 
-  library = "GUDHI", 
+  filtration = "cubical",
+  engine = "TDA",
+  library = "GUDHI",
   max_dimension = 1,
   max_scale = 1000,
   sublevel = TRUE
-  )
+)
 result <- compute_persistence(x, data)
 as.data.frame(result)
 
 # with ripserr
-## cubical filtration 
+## cubical filtration
 x <- PH_raster(
-  filtration = "cubical", 
+  filtration = "cubical",
   engine = "ripserr",
   library = ,
   max_dimension = 1,
   max_scale = 1000,
   sublevel = TRUE
-  )
+)
 result <- compute_persistence(x, data)
 as.data.frame(result)
