@@ -112,8 +112,8 @@ method(
         if (NCOL(data) != 3) {
           stop(paste(
             "Data must be 3 dimensional to compute persistent homology",
-            "using an `alpha_shape` filtration.
-            Please choose a different filtration",
+            "using an `alpha_shape` filtration.",
+            "Please choose a different filtration",
             "and try again."
           ))
         }
@@ -149,13 +149,28 @@ method(
   res <- NULL
   if (is.matrix(data) || is.array(data)) {
     if (object@engine == "ripserr") {
-      res <- ripserr::cubical(
-        data,
-        threshold = ifelse(is.na(object@max_scale),
-          max(dist(data)),
-          object@max_scale
+      if (object@sublevel) {
+        res <- ripserr::cubical(
+          data,
+          threshold = ifelse(is.na(object@max_scale),
+            max(dist(data)),
+            object@max_scale
+          )
         )
-      )
+      } else {
+        res <- ripserr::cubical(
+          -data,
+          threshold = ifelse(is.na(object@max_scale),
+            max(dist(data)),
+            object@max_scale
+          )
+        ) |>
+          as.data.frame() |>
+          transform(
+            birth = -birth,
+            death = -death
+          )
+      }
     } else if (object@engine == "TDA") {
       res <- TDA::gridDiag(
         FUNvalues = data,
@@ -167,6 +182,6 @@ method(
     res <- as_persistence(res)
     res
   } else {
-    stop("Data must be a matrix or an array for PH_pointcloud")
+    stop("Data must be a matrix or an array for PH_raster")
   }
 }
