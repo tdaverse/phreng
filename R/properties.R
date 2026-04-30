@@ -1,7 +1,7 @@
 #' @include aaa.R
 #' @importFrom snakecase to_snake_case
 #' @importFrom stringr str_detect
-filtration_type <- new_property(
+filtration_type_point_cloud <- new_property(
   class = class_character,
   validator = function(value) {
     valid_filtrations <- c(
@@ -20,6 +20,28 @@ filtration_type <- new_property(
     self
   },
   default = "vietoris_rips"
+)
+
+
+filtration_type_raster <- new_property(
+  class = class_character,
+  validator = function(value) {
+    valid_filtrations <- c(
+      "vietoris_rips",
+      "cubical",
+      "alpha_shape",
+      "alpha_complex"
+    )
+    val <- snakecase::to_snake_case(value)
+    if (!(TRUE %in% stringr::str_detect(valid_filtrations, val))) {
+      "must be vietoris_rips, cubical, alpha_shape, or alpha_complex."
+    }
+  },
+  setter = function(self, value) {
+    prop(self, "filtration") <- snakecase::to_snake_case(value)
+    self
+  },
+  default = "cubical"
 )
 
 max_dimension_type <- new_property(

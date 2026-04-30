@@ -21,7 +21,6 @@
 PH <- new_class(
   "PH",
   properties = list(
-    filtration = filtration_type,
     engine = engine_type,
     library = library_type,
     max_dimension = max_dimension_type
@@ -45,6 +44,7 @@ PH_pointcloud <- new_class(
   "PH_pointcloud",
   parent = PH,
   properties = list(
+    filtration = filtration_type_point_cloud,
     max_radius = max_radius_type,
     max_diameter = max_diameter_type
   ),
@@ -77,6 +77,7 @@ PH_raster <- new_class(
   "PH_raster",
   parent = PH,
   properties = list(
+    filtration = filtration_type_raster,
     max_scale = max_scale_type,
     sublevel = sublevel_type
   ),
