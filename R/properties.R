@@ -1,24 +1,56 @@
 #' @include aaa.R
 #' @importFrom snakecase to_snake_case
 #' @importFrom stringr str_detect
+
+
+vietoris_rips_variations <- c(
+  "vietoris_rips",
+  "vietorisrips",
+  "vietoris",
+  "rips"
+)
+
+alpha_shape_variations <- c(
+  "alpha_shape",
+  "alphashape"
+)
+
+alpha_complex_variations <- c(
+  "alpha_complex",
+  "alphacomplex"
+)
+
+valid_filtrations <- c(
+  "vietoris_rips",
+  "cubical",
+  "alpha_shape",
+  "alpha_complex"
+)
+
 filtration_type_point_cloud <- new_property(
   class = class_character,
   validator = function(value) {
-    valid_filtrations <- c(
-      "vietoris_rips",
-      "cubical",
-      "alpha_shape",
-      "alpha_complex"
-    )
     val <- snakecase::to_snake_case(value)
-    if (!(TRUE %in% stringr::str_detect(valid_filtrations, val))) {
-      "must be vietoris_rips, cubical, alpha_shape, or alpha_complex."
+    if (!(val %in% valid_filtrations ||
+          val %in% vietoris_rips_variations ||
+          val %in% alpha_complex_variations ||
+          val %in% alpha_shape_variations)) {
+      "must be vietoris_rips, cubical, alpha_shape, or alpha_complex"
     }
   },
   setter = function(self, value) {
-    prop(self, "filtration") <- snakecase::to_snake_case(value)
+    value <- snakecase::to_snake_case(value)
+    if (value %in% vietoris_rips_variations) {
+      value <- "vietoris_rips"
+    } else if (value %in% alpha_complex_variations) {
+      value <- "alpha_complex"
+    } else if (value %in% alpha_shape_variations) {
+      value <- "alpha_shape"
+    }
+    self@filtration <- value
     self
   },
+
   default = "vietoris_rips"
 )
 
@@ -26,21 +58,27 @@ filtration_type_point_cloud <- new_property(
 filtration_type_raster <- new_property(
   class = class_character,
   validator = function(value) {
-    valid_filtrations <- c(
-      "vietoris_rips",
-      "cubical",
-      "alpha_shape",
-      "alpha_complex"
-    )
     val <- snakecase::to_snake_case(value)
-    if (!(TRUE %in% stringr::str_detect(valid_filtrations, val))) {
-      "must be vietoris_rips, cubical, alpha_shape, or alpha_complex."
+    if (!(val %in% valid_filtrations ||
+          val %in% vietoris_rips_variations ||
+          val %in% alpha_complex_variations ||
+          val %in% alpha_shape_variations)) {
+      "must be vietoris_rips, cubical, alpha_shape, or alpha_complex"
     }
   },
   setter = function(self, value) {
-    prop(self, "filtration") <- snakecase::to_snake_case(value)
+    value <- snakecase::to_snake_case(value)
+    if (value %in% vietoris_rips_variations) {
+      value <- "vietoris_rips"
+    } else if (value %in% alpha_complex_variations) {
+      value <- "alpha_complex"
+    } else if (value %in% alpha_shape_variations) {
+      value <- "alpha_shape"
+    }
+    self@filtration <- value
     self
   },
+
   default = "cubical"
 )
 

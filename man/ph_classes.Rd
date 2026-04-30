@@ -6,39 +6,34 @@
 \alias{PH_raster}
 \title{Classes for persistent homology specifications}
 \usage{
-PH(
-  filtration = "vietoris_rips",
-  engine = "TDA",
-  library = NA_character_,
-  max_dimension = 1
-)
+PH(engine = "TDA", library = NA_character_, max_dimension = 1)
 
 PH_pointcloud(
-  filtration = "vietoris_rips",
   engine = "TDA",
   library = NA_character_,
   max_dimension = 1,
+  filtration = "vietoris_rips",
   max_diameter = NA_real_
 )
 
 PH_raster(
-  filtration = "vietoris_rips",
   engine = "TDA",
   library = NA_character_,
   max_dimension = 1,
+  filtration = "cubical",
   max_scale = NA_real_,
   sublevel = TRUE
 )
 }
 \arguments{
-\item{filtration}{character; filtration used in persistence calculation}
-
 \item{engine}{character; back-end engine used in persistence calculation}
 
 \item{library}{character; c++ library used for TDA engine}
 
 \item{max_dimension}{character; maximum homological dimension to compute
 persistence}
+
+\item{filtration}{character; filtration used in persistence calculation}
 
 \item{max_diameter}{character; maximum threshold for rips filtration
 (point clouds)}
