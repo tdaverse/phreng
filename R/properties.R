@@ -7,7 +7,9 @@ vietoris_rips_variations <- c(
   "vietoris_rips",
   "vietorisrips",
   "vietoris",
-  "rips"
+  "rips",
+  "rips_vietoris",
+  "ripsvietoris"
 )
 
 alpha_shape_variations <- c(
