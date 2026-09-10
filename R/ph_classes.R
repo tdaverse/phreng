@@ -38,7 +38,6 @@ PH <- new_class(
 #' @param max_diameter character; maximum threshold for rips filtration
 #' (point clouds)
 #' @rdname ph_classes
-#' @examples
 #' @export
 PH_pointcloud <- new_class(
   "PH_pointcloud",
@@ -71,7 +70,6 @@ PH_pointcloud <- new_class(
 #' @param max_scale character; maximum threshold for rips filtration (rasters)
 #' @param sublevel boolean; specifies sublevel or superlevel filtration
 #' @rdname ph_classes
-#' @examples
 #' @export
 PH_raster <- new_class(
   "PH_raster",
