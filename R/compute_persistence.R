@@ -5,13 +5,14 @@ class_dist <- new_S3_class("dist")
 
 #' @title Compute Persistent Homology
 #'
-#' @description This function is an S7 generic which dispatches based on
-#'  the user specification and the class of the data. The function standardizes
-#'  output by converting it to a `persistence` object.
+#' @description This function is an S7 generic which dispatches based on the
+#'   user specification and the class of the data. The function standardizes
+#'   output by converting it to a `persistence` object.
 #'
-#' @param object user specification of class [PersistencePointCloud] or [PersistenceGrid]
+#' @param object user specification of class [PersistencePointCloud] or
+#'   [PersistenceGrid]
 #' @param data object on which to compute persistent homology, must be of a
-#'  class compatible with object
+#'   class compatible with object
 #' @param ... additional engine-specific arguments
 #'
 #' @return class `persistence` object
