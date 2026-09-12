@@ -1,4 +1,4 @@
-spec <- PH_pointcloud(
+spec <- PersistencePointCloud(
   filtration = "vietoris_rips",
   engine = "ripserr",
   max_dimension = 1,
@@ -6,8 +6,8 @@ spec <- PH_pointcloud(
 )
 
 # constructor test
-expect_inherits(spec, "phreng::PH_pointcloud")
-expect_inherits(spec, "phreng::PH")
+expect_inherits(spec, "phreng::PersistencePointCloud")
+expect_inherits(spec, "phreng::Persistence")
 expect_equal(spec@filtration, "vietoris_rips")
 expect_equal(spec@engine, "ripserr")
 expect_equal(spec@max_dimension, 1)
@@ -16,9 +16,9 @@ expect_equal(spec@max_radius, 1)
 
 
 # default argument test
-spec <- PH_pointcloud()
+spec <- PersistencePointCloud()
 
-expect_inherits(spec, "phreng::PH_pointcloud")
+expect_inherits(spec, "phreng::PersistencePointCloud")
 expect_equal(spec@engine, "TDA")
 expect_true(is.na(spec@library))
 expect_equal(spec@max_dimension, 1)
@@ -27,27 +27,27 @@ expect_true(is.na(spec@max_radius))
 expect_true(is.na(spec@max_diameter))
 
 # max_diameter and max_radius test
-spec <- PH_pointcloud(max_diameter = 10)
+spec <- PersistencePointCloud(max_diameter = 10)
 
 expect_equal(spec@max_diameter, 10)
 expect_equal(spec@max_radius, 5)
 
 # max_diameter boundary test
-spec <- PH_pointcloud(max_diameter = 0)
+spec <- PersistencePointCloud(max_diameter = 0)
 
 expect_equal(spec@max_diameter, 0)
 expect_equal(spec@max_radius, 0)
 
 # max_dimension boundary test
-spec <- PH_pointcloud(max_dimension = 0)
+spec <- PersistencePointCloud(max_dimension = 0)
 
 expect_equal(spec@max_dimension, 0)
 
 # filtration alias tests
-spec <- PH_pointcloud(filtration = "alphacomplex")
+spec <- PersistencePointCloud(filtration = "alphacomplex")
 expect_equal(spec@filtration, "alpha_complex")
 
-spec <- PH_pointcloud(filtration = "alphashape")
+spec <- PersistencePointCloud(filtration = "alphashape")
 expect_equal(spec@filtration, "alpha_shape")
 
 rips_aliases <- c(
@@ -59,72 +59,72 @@ rips_aliases <- c(
 )
 
 for (alias in rips_aliases) {
-  spec <- PH_pointcloud(filtration = alias)
+  spec <- PersistencePointCloud(filtration = alias)
   expect_equal(spec@filtration, "vietoris_rips")
 }
 
 # library value tests
-spec <- PH_pointcloud(library = "GUDHI")
+spec <- PersistencePointCloud(library = "GUDHI")
 expect_equal(spec@library, "GUDHI")
 
-spec <- PH_pointcloud(library = "PHAT")
+spec <- PersistencePointCloud(library = "PHAT")
 expect_equal(spec@library, "PHAT")
 
-spec <- PH_pointcloud(library = "Dionysus")
+spec <- PersistencePointCloud(library = "Dionysus")
 expect_equal(spec@library, "Dionysus")
 
 # validator tests
 expect_error(
-  PH_pointcloud(engine = "bad_engine"),
+  PersistencePointCloud(engine = "bad_engine"),
   "TDA"
 )
 expect_error(
-  PH_pointcloud(engine = "bad_engine"),
+  PersistencePointCloud(engine = "bad_engine"),
   "ripserr"
 )
 expect_error(
-  PH_pointcloud(library = "bad_engine"),
+  PersistencePointCloud(library = "bad_engine"),
   "GUDHI"
 )
 expect_error(
-  PH_pointcloud(filtration = "bad_filtration"),
+  PersistencePointCloud(filtration = "bad_filtration"),
   "vietoris_rips"
 )
 
 expect_error(
-  PH_pointcloud(filtration = "bad_filtration"),
+  PersistencePointCloud(filtration = "bad_filtration"),
   "cubical"
 )
 expect_error(
-  PH_pointcloud(filtration = "bad_filtration"),
+  PersistencePointCloud(filtration = "bad_filtration"),
   "alpha_shape"
 )
 expect_error(
-  PH_pointcloud(filtration = "bad_filtration"),
+  PersistencePointCloud(filtration = "bad_filtration"),
   "alpha_complex"
 )
 expect_error(
-  PH_pointcloud(max_dimension = -1),
+  PersistencePointCloud(max_dimension = -1),
   "non-negative"
 )
 expect_error(
-  PH_pointcloud(max_dimension = 1.5),
+  PersistencePointCloud(max_dimension = 1.5),
   "integer"
 )
 expect_error(
-  PH_pointcloud(engine = "ripserr", library = "GUDHI"),
+  PersistencePointCloud(engine = "ripserr", library = "GUDHI"),
   "TDA"
 )
 expect_error(
-  PH_pointcloud(filtration = "alpha_complex", engine = "ripserr"),
+  PersistencePointCloud(filtration = "alpha_complex", engine = "ripserr"),
   "TDA"
 )
 
 # engine value tests
-spec <- PH_pointcloud(engine = "TDA")
+spec <- PersistencePointCloud(engine = "TDA")
 expect_equal(spec@engine, "TDA")
 
-spec <- PH_pointcloud(engine = "ripserr")
+spec <- PersistencePointCloud(engine = "ripserr")
 expect_equal(spec@engine, "ripserr")
 
 
@@ -144,10 +144,10 @@ exit_if_not(
   requireNamespace("phutil", quietly = TRUE)
 )
 data <- eurodist
-spec <- PH_pointcloud(
+spec <- PersistencePointCloud(
   filtration = "vietoris_rips",
   engine = "ripserr",
-  max_dimension = 1, 
+  max_dimension = 1,
   max_diameter = 2000
 )
 out <- compute_persistence(spec, data)

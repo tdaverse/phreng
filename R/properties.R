@@ -57,7 +57,7 @@ filtration_type_point_cloud <- new_property(
 )
 
 
-filtration_type_raster <- new_property(
+filtration_type_grid <- new_property(
   class = class_character,
   validator = function(value) {
     val <- snakecase::to_snake_case(value)

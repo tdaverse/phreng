@@ -3,7 +3,7 @@ data <- eurodist
 
 # with TDA
 ## vietoris_rips filtration
-x <- PH_pointcloud(
+x <- PersistencePointCloud(
   engine = "TDA",
   library = "GUDHI",
   filtration = "vietoris_rips",
@@ -16,7 +16,7 @@ as.data.frame(result)
 # with ripserr
 ## vietoris_rips filtration
 ## library specification not necessary when engine is ripserr
-x <- PH_pointcloud(
+x <- PersistencePointCloud(
   engine = "ripserr",
   library = ,
   filtration = "vietoris_rips",

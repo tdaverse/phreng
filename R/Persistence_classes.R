@@ -4,22 +4,23 @@
 #' @title Classes for persistent homology specifications
 #'
 #' @description These class define the parameters needed for persistence
-#'  calculations and allow for reuse of specification for different data sets.
-#'  The parent class, `PH`, stores core attributes that are common among all
-#'  persistence calculations. The point cloud subclass is used to handle
-#'  distance matrices and point cloud arrays. The raster subclass is used
-#'  to handle grid data encoded as matrices or arrays.
+#'   calculations and allow for reuse of specification for different data sets.
+#'   The parent class, `Persistence`, stores core attributes that are common
+#'   among all persistence calculations. The point cloud subclass is used to
+#'   handle distance matrices and point cloud arrays. The grid subclass is
+#'   used to handle matrix or array data treated as function values over a
+#'   domain.
 #'
 #' @param filtration character; filtration used in persistence calculation
 #' @param engine character; back-end engine used in persistence calculation
 #' @param library character; c++ library used for TDA engine
 #' @param max_dimension character; maximum homological dimension to compute
-#' persistence
+#'   persistence
 #'
 #' @return S7 object storing user specification for calculating persistence
-#' @rdname ph_classes
-PH <- new_class(
-  "PH",
+#' @rdname Persistence_classes
+Persistence <- new_class(
+  "Persistence",
   properties = list(
     engine = engine_type,
     library = library_type,
@@ -37,11 +38,11 @@ PH <- new_class(
 
 #' @param max_diameter character; maximum threshold for rips filtration
 #' (point clouds)
-#' @rdname ph_classes
+#' @rdname Persistence_classes
 #' @export
-PH_pointcloud <- new_class(
-  "PH_pointcloud",
-  parent = PH,
+PersistencePointCloud <- new_class(
+  "PersistencePointCloud",
+  parent = Persistence,
   properties = list(
     filtration = filtration_type_point_cloud,
     max_radius = max_radius_type,
@@ -59,7 +60,7 @@ PH_pointcloud <- new_class(
     } else if (self@filtration == "cubical") {
       paste0(
         "Cubical filtrations are only defined for ",
-        "raster objects. Please select a different ",
+        "grid objects. Please select a different ",
         "filtration such as `vietoris_rips`, `alpha_shape` ",
         "or `alpha_complex`."
       )
@@ -67,15 +68,15 @@ PH_pointcloud <- new_class(
   }
 )
 
-#' @param max_scale character; maximum threshold for rips filtration (rasters)
+#' @param max_scale character; maximum threshold for rips filtration (grids)
 #' @param sublevel boolean; specifies sublevel or superlevel filtration
-#' @rdname ph_classes
+#' @rdname Persistence_classes
 #' @export
-PH_raster <- new_class(
-  "PH_raster",
-  parent = PH,
+PersistenceGrid <- new_class(
+  "PersistenceGrid",
+  parent = Persistence,
   properties = list(
-    filtration = filtration_type_raster,
+    filtration = filtration_type_grid,
     max_scale = max_scale_type,
     sublevel = sublevel_type
   ),
@@ -83,7 +84,7 @@ PH_raster <- new_class(
     if (self@filtration != "cubical") {
       paste0(
         "Only cubical filtrations are allowed for ",
-        "raster objects."
+        "grid objects."
       )
     }
   }

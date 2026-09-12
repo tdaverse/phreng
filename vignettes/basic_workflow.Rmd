@@ -61,7 +61,7 @@ available_classes(
 )
 
 available_classes(
-  input = "raster"
+  input = "grid"
 )
 ```
 
@@ -81,8 +81,8 @@ The user will need to call two functions. The first function creates a *specific
 Two specifications designed for point cloud data will be created.
 
 ```{r}
-spec1 <- PH_pointcloud(filtration = "vietoris_rips", engine = "ripserr", max_dimension = 2)
-spec2 <- PH_pointcloud(filtration = "vietoris_rips", engine = "TDA", max_dimension = 2)
+spec1 <- PersistencePointCloud(filtration = "vietoris_rips", engine = "ripserr", max_dimension = 2)
+spec2 <- PersistencePointCloud(filtration = "vietoris_rips", engine = "TDA", max_dimension = 2)
 ```
 
 This specification chooses which R package and implementation, called the *engine*, will be used to compute the persistence. It also chooses which filtration the computation will implement. There are other options the user can specify such as maximum scale of the filtration or which `TDA` library to be used.
@@ -96,7 +96,7 @@ out1
 out2 
 ```
 
-This same workflow can be replicated with the other available `PH_<math object>` specifications such as `PH_raster`.
+This same workflow can be replicated with the other available `Persistence_<math object>` specifications such as `PersistenceGrid`.
 
 ### Equivalent Output with Minor Differences
 
@@ -111,7 +111,8 @@ The values of the births and deaths are same until the $10^{-8}$ths place. Some 
 
 ## Updating Specifications
 
-This package is designed using `S7`, and the specifications defined by `PH_<math object>` are `S7` objects. After a specification has been defined, it can be updated using the \@ operator.
+This package is designed using `S7`, and the specifications defined by `Persistence_<math object>` are `S7` objects.
+After a specification has been defined, it can be updated using the \@ operator. 
 
 ```{r}
 spec1@max_dimension <- 1

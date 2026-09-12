@@ -3,7 +3,7 @@ data <- matrix(rnorm(100), ncol = 4)
 
 # with TDA
 ## vietoris_rips filtration
-x <- PH_pointcloud(
+x <- PersistencePointCloud(
   filtration = "vietoris_rips",
   engine = "TDA",
   library = "GUDHI",
@@ -15,7 +15,7 @@ as.data.frame(result)
 
 # with ripserr
 ## vietoris_rips filtration
-x <- PH_pointcloud(
+x <- PersistencePointCloud(
   filtration = "vietoris_rips",
   engine = "ripserr",
   library = ,
