@@ -38,7 +38,6 @@ Persistence <- new_class(
 #' @param max_diameter character; maximum threshold for rips filtration
 #' (point clouds)
 #' @rdname Persistence_classes
-#' @examples
 #' @export
 PersistencePointCloud <- new_class(
   "PersistencePointCloud",
@@ -71,7 +70,6 @@ PersistencePointCloud <- new_class(
 #' @param max_scale character; maximum threshold for rips filtration (rasters)
 #' @param sublevel boolean; specifies sublevel or superlevel filtration
 #' @rdname Persistence_classes
-#' @examples
 #' @export
 PersistenceRaster <- new_class(
   "PersistenceRaster",

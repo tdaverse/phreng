@@ -7,6 +7,7 @@ Authors@R: c(
     person("Ethan", "Borick", role = "aut"),
     person("Alexia", "Cordova", role = "aut"),
     person("Megan", "Sin", role = "aut"),
+    person("Caitlyn", "Tripician", role = "aut"),
     person("Teodora", "Buzaianu", role = "aut"))
 Description: An easy to use interface for calculating persistent homology where the user sets up a model specification without having to 
     remember the different argument names across the engines `TDA` and `ripserr`. It is part of the 'TDAverse' suite of packages, which is 
@@ -32,6 +33,12 @@ Collate:
     'aaa.R'
     'properties.R'
     'Persistence_classes.R'
+    'engine_metadata.R'
+    'available_classes.R'
+    'available_engines.R'
+    'available_filtrations.R'
+    'available_inputs.R'
     'compute_persistence.R'
     'package_check.R'
+    'recommend_engine.R'
 Config/roxygen2/version: 8.0.0
