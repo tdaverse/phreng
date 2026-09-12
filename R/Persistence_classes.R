@@ -7,8 +7,9 @@
 #'   calculations and allow for reuse of specification for different data sets.
 #'   The parent class, `Persistence`, stores core attributes that are common
 #'   among all persistence calculations. The point cloud subclass is used to
-#'   handle distance matrices and point cloud arrays. The raster subclass is
-#'   used to handle grid data encoded as matrices or arrays.
+#'   handle distance matrices and point cloud arrays. The grid subclass is
+#'   used to handle matrix or array data treated as function values over a
+#'   domain.
 #'
 #' @param filtration character; filtration used in persistence calculation
 #' @param engine character; back-end engine used in persistence calculation
@@ -59,7 +60,7 @@ PersistencePointCloud <- new_class(
     } else if (self@filtration == "cubical") {
       paste0(
         "Cubical filtrations are only defined for ",
-        "raster objects. Please select a different ",
+        "grid objects. Please select a different ",
         "filtration such as `vietoris_rips`, `alpha_shape` ",
         "or `alpha_complex`."
       )
@@ -67,15 +68,15 @@ PersistencePointCloud <- new_class(
   }
 )
 
-#' @param max_scale character; maximum threshold for rips filtration (rasters)
+#' @param max_scale character; maximum threshold for rips filtration (grids)
 #' @param sublevel boolean; specifies sublevel or superlevel filtration
 #' @rdname Persistence_classes
 #' @export
-PersistenceRaster <- new_class(
-  "PersistenceRaster",
+PersistenceGrid <- new_class(
+  "PersistenceGrid",
   parent = Persistence,
   properties = list(
-    filtration = filtration_type_raster,
+    filtration = filtration_type_grid,
     max_scale = max_scale_type,
     sublevel = sublevel_type
   ),
@@ -83,7 +84,7 @@ PersistenceRaster <- new_class(
     if (self@filtration != "cubical") {
       paste0(
         "Only cubical filtrations are allowed for ",
-        "raster objects."
+        "grid objects."
       )
     }
   }

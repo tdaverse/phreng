@@ -3,7 +3,7 @@
 \name{Persistence}
 \alias{Persistence}
 \alias{PersistencePointCloud}
-\alias{PersistenceRaster}
+\alias{PersistenceGrid}
 \title{Classes for persistent homology specifications}
 \usage{
 Persistence(engine = "TDA", library = NA_character_, max_dimension = 1)
@@ -16,7 +16,7 @@ PersistencePointCloud(
   max_diameter = NA_real_
 )
 
-PersistenceRaster(
+PersistenceGrid(
   engine = "TDA",
   library = NA_character_,
   max_dimension = 1,
@@ -38,7 +38,7 @@ persistence}
 \item{max_diameter}{character; maximum threshold for rips filtration
 (point clouds)}
 
-\item{max_scale}{character; maximum threshold for rips filtration (rasters)}
+\item{max_scale}{character; maximum threshold for rips filtration (grids)}
 
 \item{sublevel}{boolean; specifies sublevel or superlevel filtration}
 }
@@ -50,6 +50,7 @@ These class define the parameters needed for persistence
 calculations and allow for reuse of specification for different data sets.
 The parent class, \code{Persistence}, stores core attributes that are common
 among all persistence calculations. The point cloud subclass is used to
-handle distance matrices and point cloud arrays. The raster subclass is
-used to handle grid data encoded as matrices or arrays.
+handle distance matrices and point cloud arrays. The grid subclass is
+used to handle matrix or array data treated as function values over a
+domain.
 }

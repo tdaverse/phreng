@@ -3,7 +3,7 @@ data <- volcano
 
 # with TDA
 ## cubical filtration
-x <- PersistenceRaster(
+x <- PersistenceGrid(
   filtration = "cubical",
   engine = "TDA",
   library = "GUDHI",
@@ -16,7 +16,7 @@ as.data.frame(result)
 
 # with ripserr
 ## cubical filtration
-x <- PersistenceRaster(
+x <- PersistenceGrid(
   filtration = "cubical",
   engine = "ripserr",
   library = ,

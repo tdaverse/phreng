@@ -9,7 +9,7 @@ class_dist <- new_S3_class("dist")
 #'  the user specification and the class of the data. The function standardizes
 #'  output by converting it to a `persistence` object.
 #'
-#' @param object user specification of class [PersistencePointCloud] or [PersistenceRaster]
+#' @param object user specification of class [PersistencePointCloud] or [PersistenceGrid]
 #' @param data object on which to compute persistent homology, must be of a
 #'  class compatible with object
 #' @param ... additional engine-specific arguments
@@ -143,7 +143,7 @@ method(
 
 method(
   compute_persistence,
-  list(PersistenceRaster, class_double)
+  list(PersistenceGrid, class_double)
 ) <- function(object, data) {
   check_packages(object)
   res <- NULL
@@ -182,6 +182,6 @@ method(
     res <- as_persistence(res)
     res
   } else {
-    stop("Data must be a matrix or an array for `PersistenceRaster()`.")
+    stop("Data must be a matrix or an array for `PersistenceGrid()`.")
   }
 }

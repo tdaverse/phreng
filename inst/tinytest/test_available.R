@@ -92,7 +92,7 @@ expect_error(
 inputs <- available_inputs()
 
 expect_true("point_cloud" %in% inputs)
-expect_true("raster" %in% inputs)
+expect_true("grid" %in% inputs)
 
 expect_equal(
   available_inputs("vietoris_rips"),
@@ -101,12 +101,12 @@ expect_equal(
 
 expect_equal(
   available_inputs("cubical"),
-  "raster"
+  "grid"
 )
 
 expect_equal(
   available_inputs("triangulation"),
-  "raster"
+  "grid"
 )
 
 expect_equal(
@@ -138,7 +138,7 @@ expect_equal(
 expect_equal(
   available_classes(
     filtration = "cubical",
-    input = "raster"
+    input = "grid"
   ),
   "double"
 )
@@ -146,7 +146,7 @@ expect_equal(
 expect_equal(
   available_classes(
     filtration = "triangulation",
-    input = "raster"
+    input = "grid"
   ),
   "double"
 )
@@ -170,7 +170,7 @@ expect_error(
 expect_error(
   available_classes(
     filtration = "vietoris_rips",
-    input = "raster"
+    input = "grid"
   ),
   "No class supports"
 )
@@ -189,7 +189,7 @@ expect_equal(
 expect_equal(
   recommend_engine(
     filtration = "cubical",
-    input = "raster"
+    input = "grid"
   ),
   "ripserr"
 )
@@ -197,7 +197,7 @@ expect_equal(
 expect_equal(
   recommend_engine(
     filtration = "triangulation",
-    input = "raster"
+    input = "grid"
   ),
   "TDA"
 )

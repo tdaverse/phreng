@@ -61,7 +61,7 @@ available_classes(
 )
 
 available_classes(
-  input = "raster"
+  input = "grid"
 )
 ```
 
@@ -96,7 +96,7 @@ out1
 out2 
 ```
 
-This same workflow can be replicated with the other available `Persistence_<math object>` specifications such as `PersistenceRaster`.
+This same workflow can be replicated with the other available `Persistence_<math object>` specifications such as `PersistenceGrid`.
 
 ### Equivalent Output with Minor Differences
 
