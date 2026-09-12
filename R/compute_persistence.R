@@ -51,10 +51,9 @@ method(
         )
       )
     }
-    if (object@filtration == "alpha_complex" ||
-      object@filtration == "alpha_shape") {
+    if (object@filtration == "alpha") {
       stop(paste(
-        "`alpha_shape` and `alpha_complex` filtrations are not currently",
+        "`alpha` filtrations are not",
         "supported for dist objects. Please choose a different filtration."
       ))
     }
@@ -92,7 +91,7 @@ method(
           )
         )
       }
-      if (object@filtration == "alpha_complex") {
+      if (object@filtration == "alpha") {
         res <- TDA::alphaComplexDiag(
           data,
           library = ifelse(is.na(object@library),
@@ -103,8 +102,8 @@ method(
         )
         if (!is.na(object@max_diameter)) {
           warning(paste(
-            "Currently `max_diameter` is not supported for `alpha_shape`",
-            "and `alpha_complex` filtrations. The displayed output",
+            "Currently `max_diameter` is not supported for `alpha`",
+            "filtrations. The displayed output",
             "ignores the user entered `max_diameter`"
           ))
         }
@@ -128,8 +127,8 @@ method(
         )
         if (!is.na(object@max_diameter)) {
           warning(paste(
-            "Currently `max_diameter` is not supported for `alpha_shape`",
-            "and `alpha_complex` filtrations. The displayed output",
+            "Currently `max_diameter` is not supported for `alpha`",
+            "filtrations. The displayed output",
             "ignores the user entered `max_diameter`"
           ))
         }

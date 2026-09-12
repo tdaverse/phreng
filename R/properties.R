@@ -5,49 +5,52 @@
 
 vietoris_rips_variations <- c(
   "vietoris_rips",
-  "vietorisrips",
   "vietoris",
   "rips",
-  "rips_vietoris",
-  "ripsvietoris"
+  "rips_vietoris"
 )
 
-alpha_shape_variations <- c(
+alpha_variations <- c(
+  "alpha",
   "alpha_shape",
-  "alphashape"
+  "alpha_complex"
 )
 
-alpha_complex_variations <- c(
-  "alpha_complex",
-  "alphacomplex"
+distances_filtrations <- c(
+  "vietoris_rips"
+)
+
+point_cloud_filtrations <- c(
+  "cech",
+  "alpha",
+  distances_filtrations
+)
+
+grid_filtrations <- c(
+  "cubical",
+  "triangulation"
 )
 
 valid_filtrations <- c(
-  "vietoris_rips",
-  "cubical",
-  "alpha_shape",
-  "alpha_complex"
+  distances_filtrations,
+  point_cloud_filtrations,
+  grid_filtrations
 )
 
 filtration_type_point_cloud <- new_property(
   class = class_character,
   validator = function(value) {
     val <- snakecase::to_snake_case(value)
-    if (!(val %in% valid_filtrations ||
-          val %in% vietoris_rips_variations ||
-          val %in% alpha_complex_variations ||
-          val %in% alpha_shape_variations)) {
-      "must be vietoris_rips, cubical, alpha_shape, or alpha_complex"
+    if (! val %in% point_cloud_filtrations) {
+      paste("must be one of", paste(point_cloud_filtrations, collapse = ", "))
     }
   },
   setter = function(self, value) {
     value <- snakecase::to_snake_case(value)
     if (value %in% vietoris_rips_variations) {
       value <- "vietoris_rips"
-    } else if (value %in% alpha_complex_variations) {
-      value <- "alpha_complex"
-    } else if (value %in% alpha_shape_variations) {
-      value <- "alpha_shape"
+    } else if (value %in% alpha_variations) {
+      value <- "alpha"
     }
     self@filtration <- value
     self
@@ -61,22 +64,12 @@ filtration_type_grid <- new_property(
   class = class_character,
   validator = function(value) {
     val <- snakecase::to_snake_case(value)
-    if (!(val %in% valid_filtrations ||
-          val %in% vietoris_rips_variations ||
-          val %in% alpha_complex_variations ||
-          val %in% alpha_shape_variations)) {
-      "must be vietoris_rips, cubical, alpha_shape, or alpha_complex"
+    if (! val %in% grid_filtrations) {
+      paste("must be one of", paste(grid_filtrations, collapse = ", "))
     }
   },
   setter = function(self, value) {
     value <- snakecase::to_snake_case(value)
-    if (value %in% vietoris_rips_variations) {
-      value <- "vietoris_rips"
-    } else if (value %in% alpha_complex_variations) {
-      value <- "alpha_complex"
-    } else if (value %in% alpha_shape_variations) {
-      value <- "alpha_shape"
-    }
     self@filtration <- value
     self
   },

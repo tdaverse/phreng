@@ -50,8 +50,7 @@ PersistencePointCloud <- new_class(
   ),
   validator = function(self) {
     if (self@engine == "ripserr" &
-      (self@filtration == "alpha_complex" ||
-        self@filtration == "alpha_shape")) {
+      (self@filtration == "alpha")) {
       paste0(
         "Alpha complexes are only defined for the ",
         "engine `TDA` using point clouds. Please use ",

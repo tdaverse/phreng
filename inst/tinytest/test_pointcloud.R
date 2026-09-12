@@ -44,18 +44,16 @@ spec <- PersistencePointCloud(max_dimension = 0)
 expect_equal(spec@max_dimension, 0)
 
 # filtration alias tests
-spec <- PersistencePointCloud(filtration = "alphacomplex")
-expect_equal(spec@filtration, "alpha_complex")
+spec <- PersistencePointCloud(filtration = "alpha_complex")
+expect_equal(spec@filtration, "alpha")
 
-spec <- PersistencePointCloud(filtration = "alphashape")
-expect_equal(spec@filtration, "alpha_shape")
+spec <- PersistencePointCloud(filtration = "alpha_shape")
+expect_equal(spec@filtration, "alpha")
 
 rips_aliases <- c(
-  "vietorisrips",
   "vietoris",
   "rips",
-  "rips_vietoris",
-  "ripsvietoris"
+  "rips_vietoris"
 )
 
 for (alias in rips_aliases) {
@@ -93,15 +91,11 @@ expect_error(
 
 expect_error(
   PersistencePointCloud(filtration = "bad_filtration"),
-  "cubical"
+  "alpha"
 )
 expect_error(
   PersistencePointCloud(filtration = "bad_filtration"),
-  "alpha_shape"
-)
-expect_error(
-  PersistencePointCloud(filtration = "bad_filtration"),
-  "alpha_complex"
+  "cech"
 )
 expect_error(
   PersistencePointCloud(max_dimension = -1),
