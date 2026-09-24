@@ -60,8 +60,8 @@ PersistencePointCloud <- new_class(
       paste0(
         "Cubical filtrations are only defined for ",
         "grid objects. Please select a different ",
-        "filtration such as `vietoris_rips`, `alpha_shape` ",
-        "or `alpha_complex`."
+        "filtration such as `cech`, `alpha`, ",
+        "or `vietoris_rips`."
       )
     }
   }

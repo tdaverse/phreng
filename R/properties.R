@@ -1,20 +1,5 @@
 #' @include aaa.R
-#' @importFrom snakecase to_snake_case
 #' @importFrom stringr str_detect
-
-
-vietoris_rips_variations <- c(
-  "vietoris_rips",
-  "vietoris",
-  "rips",
-  "rips_vietoris"
-)
-
-alpha_variations <- c(
-  "alpha",
-  "alpha_shape",
-  "alpha_complex"
-)
 
 distances_filtrations <- c(
   "vietoris_rips"
@@ -37,21 +22,14 @@ valid_filtrations <- c(
   grid_filtrations
 )
 
-filtration_type_point_cloud <- new_property(
+filtration_type_distances <- new_property(
   class = class_character,
   validator = function(value) {
-    val <- snakecase::to_snake_case(value)
-    if (! val %in% point_cloud_filtrations) {
-      paste("must be one of", paste(point_cloud_filtrations, collapse = ", "))
+    if (! value %in% distances_filtrations) {
+      paste("must be one of", paste(distances_filtrations, collapse = ", "))
     }
   },
   setter = function(self, value) {
-    value <- snakecase::to_snake_case(value)
-    if (value %in% vietoris_rips_variations) {
-      value <- "vietoris_rips"
-    } else if (value %in% alpha_variations) {
-      value <- "alpha"
-    }
     self@filtration <- value
     self
   },
@@ -59,17 +37,29 @@ filtration_type_point_cloud <- new_property(
   default = "vietoris_rips"
 )
 
+filtration_type_point_cloud <- new_property(
+  class = class_character,
+  validator = function(value) {
+    if (! value %in% point_cloud_filtrations) {
+      paste("must be one of", paste(point_cloud_filtrations, collapse = ", "))
+    }
+  },
+  setter = function(self, value) {
+    self@filtration <- value
+    self
+  },
+
+  default = "alpha"
+)
 
 filtration_type_grid <- new_property(
   class = class_character,
   validator = function(value) {
-    val <- snakecase::to_snake_case(value)
-    if (! val %in% grid_filtrations) {
+    if (! value %in% grid_filtrations) {
       paste("must be one of", paste(grid_filtrations, collapse = ", "))
     }
   },
   setter = function(self, value) {
-    value <- snakecase::to_snake_case(value)
     self@filtration <- value
     self
   },

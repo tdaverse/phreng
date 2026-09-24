@@ -12,7 +12,7 @@ PersistencePointCloud(
   engine = "TDA",
   library = NA_character_,
   max_dimension = 1,
-  filtration = "vietoris_rips",
+  filtration = "alpha",
   max_diameter = NA_real_
 )
 
