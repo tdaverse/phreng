@@ -18,8 +18,7 @@ License: MIT + file LICENSE
 Imports:
     S7,
     phutil,
-    stringr,
-    snakecase
+    stringr
 Suggests:
     TDA,
     ripserr,

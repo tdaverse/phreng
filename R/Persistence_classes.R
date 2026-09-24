@@ -50,8 +50,7 @@ PersistencePointCloud <- new_class(
   ),
   validator = function(self) {
     if (self@engine == "ripserr" &
-      (self@filtration == "alpha_complex" ||
-        self@filtration == "alpha_shape")) {
+      (self@filtration == "alpha")) {
       paste0(
         "Alpha complexes are only defined for the ",
         "engine `TDA` using point clouds. Please use ",
@@ -61,8 +60,8 @@ PersistencePointCloud <- new_class(
       paste0(
         "Cubical filtrations are only defined for ",
         "grid objects. Please select a different ",
-        "filtration such as `vietoris_rips`, `alpha_shape` ",
-        "or `alpha_complex`."
+        "filtration such as `cech`, `alpha`, ",
+        "or `vietoris_rips`."
       )
     }
   }

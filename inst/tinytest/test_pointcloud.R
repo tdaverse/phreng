@@ -22,7 +22,7 @@ expect_inherits(spec, "phreng::PersistencePointCloud")
 expect_equal(spec@engine, "TDA")
 expect_true(is.na(spec@library))
 expect_equal(spec@max_dimension, 1)
-expect_equal(spec@filtration, "vietoris_rips")
+expect_equal(spec@filtration, "alpha")
 expect_true(is.na(spec@max_radius))
 expect_true(is.na(spec@max_diameter))
 
@@ -43,25 +43,10 @@ spec <- PersistencePointCloud(max_dimension = 0)
 
 expect_equal(spec@max_dimension, 0)
 
-# filtration alias tests
-spec <- PersistencePointCloud(filtration = "alphacomplex")
-expect_equal(spec@filtration, "alpha_complex")
-
-spec <- PersistencePointCloud(filtration = "alphashape")
-expect_equal(spec@filtration, "alpha_shape")
-
-rips_aliases <- c(
-  "vietorisrips",
-  "vietoris",
-  "rips",
-  "rips_vietoris",
-  "ripsvietoris"
+expect_error(
+  PersistencePointCloud(filtration = "unrecognized"),
+  "must be one of"
 )
-
-for (alias in rips_aliases) {
-  spec <- PersistencePointCloud(filtration = alias)
-  expect_equal(spec@filtration, "vietoris_rips")
-}
 
 # library value tests
 spec <- PersistencePointCloud(library = "GUDHI")
@@ -93,15 +78,11 @@ expect_error(
 
 expect_error(
   PersistencePointCloud(filtration = "bad_filtration"),
-  "cubical"
+  "alpha"
 )
 expect_error(
   PersistencePointCloud(filtration = "bad_filtration"),
-  "alpha_shape"
-)
-expect_error(
-  PersistencePointCloud(filtration = "bad_filtration"),
-  "alpha_complex"
+  "cech"
 )
 expect_error(
   PersistencePointCloud(max_dimension = -1),
@@ -116,7 +97,7 @@ expect_error(
   "TDA"
 )
 expect_error(
-  PersistencePointCloud(filtration = "alpha_complex", engine = "ripserr"),
+  PersistencePointCloud(filtration = "alpha", engine = "ripserr"),
   "TDA"
 )
 
@@ -124,7 +105,7 @@ expect_error(
 spec <- PersistencePointCloud(engine = "TDA")
 expect_equal(spec@engine, "TDA")
 
-spec <- PersistencePointCloud(engine = "ripserr")
+spec <- PersistencePointCloud(filtration = "vietoris_rips", engine = "ripserr")
 expect_equal(spec@engine, "ripserr")
 
 

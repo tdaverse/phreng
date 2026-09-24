@@ -51,10 +51,9 @@ method(
         )
       )
     }
-    if (object@filtration == "alpha_complex" ||
-      object@filtration == "alpha_shape") {
+    if (object@filtration == "alpha") {
       stop(paste(
-        "`alpha_shape` and `alpha_complex` filtrations are not currently",
+        "`alpha` filtrations are not",
         "supported for dist objects. Please choose a different filtration."
       ))
     }
@@ -92,44 +91,30 @@ method(
           )
         )
       }
-      if (object@filtration == "alpha_complex") {
-        res <- TDA::alphaComplexDiag(
-          data,
-          library = ifelse(is.na(object@library),
-            c("GUDHI", "Dionysus"),
-            object@library
-          ),
-          maxdimension = object@max_dimension
-        )
+      if (object@filtration == "alpha") {
+        if (NCOL(data) == 3) {
+          res <- TDA::alphaShapeDiag(
+            data,
+            library = ifelse(is.na(object@library),
+                             c("GUDHI", "Dionysus"),
+                             object@library
+            ),
+            maxdimension = object@max_dimension
+          )
+        } else {
+          res <- TDA::alphaComplexDiag(
+            data,
+            library = ifelse(is.na(object@library),
+                             c("GUDHI", "Dionysus"),
+                             object@library
+            ),
+            maxdimension = object@max_dimension
+          )
+        }
         if (!is.na(object@max_diameter)) {
           warning(paste(
-            "Currently `max_diameter` is not supported for `alpha_shape`",
-            "and `alpha_complex` filtrations. The displayed output",
-            "ignores the user entered `max_diameter`"
-          ))
-        }
-      }
-      if (object@filtration == "alpha_shape") {
-        if (NCOL(data) != 3) {
-          stop(paste(
-            "Data must be 3 dimensional to compute persistent homology",
-            "using an `alpha_shape` filtration.",
-            "Please choose a different filtration",
-            "and try again."
-          ))
-        }
-        res <- TDA::alphaShapeDiag(
-          data,
-          library = ifelse(is.na(object@library),
-            c("GUDHI", "Dionysus"),
-            object@library
-          ),
-          maxdimension = object@max_dimension
-        )
-        if (!is.na(object@max_diameter)) {
-          warning(paste(
-            "Currently `max_diameter` is not supported for `alpha_shape`",
-            "and `alpha_complex` filtrations. The displayed output",
+            "Currently `max_diameter` is not supported for `alpha`",
+            "filtrations. The displayed output",
             "ignores the user entered `max_diameter`"
           ))
         }
