@@ -1,3 +1,6 @@
+# NB: The S7::`prop<-` re-export is unused so removed; to restore, follow the
+# "Managing imports and exports" vignette at
+# <https://roxygen2.r-lib.org/articles/namespace.html>.
 #' @importFrom phutil as_persistence
 #' @export
 as_persistence
@@ -5,9 +8,6 @@ as_persistence
 #' @export
 new_property
 #' @importFrom S7 class_character
-#' @export
-`prop<-`
-#' @importFrom S7 `prop<-`
 #' @export
 class_character
 #' @importFrom S7 class_double
