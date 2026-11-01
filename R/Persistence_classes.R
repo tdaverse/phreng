@@ -3,13 +3,13 @@
 
 #' @title Classes for persistent homology specifications
 #'
-#' @description These class define the parameters needed for persistence
-#'   calculations and allow for reuse of specification for different data sets.
-#'   The parent class, `Persistence`, stores core attributes that are common
-#'   among all persistence calculations. The point cloud subclass is used to
-#'   handle distance matrices and point cloud arrays. The grid subclass is
-#'   used to handle matrix or array data treated as function values over a
-#'   domain.
+#' @description These classes define the parameters needed for persistence
+#'   calculations and allow for reuse of specifications for different data
+#'   sets. The parent class, `Persistence`, stores core attributes that are
+#'   common among all persistence calculations. The distances subclass is used
+#'   to handle pairwise distance data, the coordinates subclass is used to
+#'   handle coordinate matrices, and the grid subclass is used to handle
+#'   matrix or array data treated as function values over a lattice.
 #'
 #' @param filtration character; filtration used in persistence calculation
 #' @param engine character; back-end engine used in persistence calculation
@@ -37,14 +37,26 @@ Persistence <- new_class(
 )
 
 #' @param max_diameter character; maximum threshold for rips filtration
-#' (point clouds)
+#' (distances and coordinates)
 #' @rdname Persistence_classes
 #' @export
-PersistencePointCloud <- new_class(
-  "PersistencePointCloud",
+PersistenceDistances <- new_class(
+  "PersistenceDistances",
   parent = Persistence,
   properties = list(
-    filtration = filtration_type_point_cloud,
+    filtration = filtration_type_distances,
+    max_diameter = max_diameter_type
+  )
+)
+
+# TODO: Introduce a `distance_metric` property that defaults to `"euclidean"`.
+#' @rdname Persistence_classes
+#' @export
+PersistenceCoordinates <- new_class(
+  "PersistenceCoordinates",
+  parent = Persistence,
+  properties = list(
+    filtration = filtration_type_coordinates,
     max_radius = max_radius_type,
     max_diameter = max_diameter_type
   ),
@@ -53,7 +65,7 @@ PersistencePointCloud <- new_class(
       (self@filtration == "alpha")) {
       paste0(
         "Alpha complexes are only defined for the ",
-        "engine `TDA` using point clouds. Please use ",
+        "engine `TDA` using coordinates. Please use ",
         "engine `TDA` for any alpha filtration."
       )
     } else if (self@filtration == "cubical") {

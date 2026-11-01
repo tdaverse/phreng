@@ -5,7 +5,7 @@ distances_filtrations <- c(
   "vietoris_rips"
 )
 
-point_cloud_filtrations <- c(
+coordinates_filtrations <- c(
   "cech",
   "alpha",
   distances_filtrations
@@ -18,7 +18,7 @@ grid_filtrations <- c(
 
 valid_filtrations <- c(
   distances_filtrations,
-  point_cloud_filtrations,
+  coordinates_filtrations,
   grid_filtrations
 )
 
@@ -37,11 +37,11 @@ filtration_type_distances <- new_property(
   default = "vietoris_rips"
 )
 
-filtration_type_point_cloud <- new_property(
+filtration_type_coordinates <- new_property(
   class = class_character,
   validator = function(value) {
-    if (! value %in% point_cloud_filtrations) {
-      paste("must be one of", paste(point_cloud_filtrations, collapse = ", "))
+    if (! value %in% coordinates_filtrations) {
+      paste("must be one of", paste(coordinates_filtrations, collapse = ", "))
     }
   },
   setter = function(self, value) {

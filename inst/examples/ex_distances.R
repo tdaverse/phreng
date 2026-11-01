@@ -1,12 +1,12 @@
-# generating point cloud data
-data <- matrix(rnorm(100), ncol = 4)
+# using eurodist dataset
+data <- eurodist
 
 # with TDA
 ## vietoris_rips filtration
-x <- PersistencePointCloud(
-  filtration = "vietoris_rips",
+x <- PersistenceDistances(
   engine = "TDA",
   library = "GUDHI",
+  filtration = "vietoris_rips",
   max_dimension = 1,
   max_diameter = 1000
 )
@@ -15,10 +15,10 @@ as.data.frame(result)
 
 # with ripserr
 ## vietoris_rips filtration
-x <- PersistencePointCloud(
-  filtration = "vietoris_rips",
+## library specification not necessary when engine is ripserr
+x <- PersistenceDistances(
   engine = "ripserr",
-  library = ,
+  filtration = "vietoris_rips",
   max_dimension = 1,
   max_diameter = 1000
 )

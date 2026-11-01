@@ -7,7 +7,8 @@
 compute_persistence(object, data, ...)
 }
 \arguments{
-\item{object}{user specification of class \link{PersistencePointCloud} or \link{PersistenceGrid}}
+\item{object}{user specification of class \link{PersistenceDistances},
+\link{PersistenceCoordinates}, or \link{PersistenceGrid}}
 
 \item{data}{object on which to compute persistent homology, must be of a
 class compatible with object}
@@ -18,7 +19,7 @@ class compatible with object}
 class \code{persistence} object
 }
 \description{
-This function is an S7 generic which dispatches based on
-the user specification and the class of the data. The function standardizes
+This function is an S7 generic which dispatches based on the
+user specification and the class of the data. The function standardizes
 output by converting it to a \code{persistence} object.
 }

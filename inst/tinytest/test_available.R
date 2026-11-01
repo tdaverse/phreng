@@ -68,7 +68,15 @@ expect_equal(
 expect_equal(
   available_engines(
     filtration = "vietoris_rips",
-    input = "point_cloud"
+    input = "distances"
+  ),
+  c("ripserr", "TDA")
+)
+
+expect_equal(
+  available_engines(
+    filtration = "vietoris_rips",
+    input = "coordinates"
   ),
   c("ripserr", "TDA")
 )
@@ -81,7 +89,7 @@ expect_error(
 expect_error(
   available_engines(
     filtration = "cubical",
-    input = "point_cloud"
+    input = "coordinates"
   ),
   "No engine supports"
 )
@@ -91,12 +99,13 @@ expect_error(
 
 inputs <- available_inputs()
 
-expect_true("point_cloud" %in% inputs)
+expect_true("distances" %in% inputs)
+expect_true("coordinates" %in% inputs)
 expect_true("grid" %in% inputs)
 
 expect_equal(
   available_inputs("vietoris_rips"),
-  "point_cloud"
+  c("distances", "coordinates")
 )
 
 expect_equal(
@@ -111,7 +120,7 @@ expect_equal(
 
 expect_equal(
   available_inputs("alpha"),
-  "point_cloud"
+  "coordinates"
 )
 
 expect_error(
@@ -130,9 +139,17 @@ expect_true("dist" %in% classes)
 expect_equal(
   available_classes(
     filtration = "vietoris_rips",
-    input = "point_cloud"
+    input = "distances"
   ),
-  c("double", "dist")
+  "dist"
+)
+
+expect_equal(
+  available_classes(
+    filtration = "vietoris_rips",
+    input = "coordinates"
+  ),
+  "double"
 )
 
 expect_equal(
@@ -154,7 +171,7 @@ expect_equal(
 expect_equal(
   available_classes(
     filtration = "alpha",
-    input = "point_cloud"
+    input = "coordinates"
   ),
   "double"
 )
@@ -162,7 +179,7 @@ expect_equal(
 expect_error(
   available_classes(
     filtration = "bad_filtration",
-    input = "point_cloud"
+    input = "coordinates"
   ),
   "No class supports"
 )
@@ -181,7 +198,15 @@ expect_error(
 expect_equal(
   recommend_engine(
     filtration = "vietoris_rips",
-    input = "point_cloud"
+    input = "distances"
+  ),
+  "ripserr"
+)
+
+expect_equal(
+  recommend_engine(
+    filtration = "vietoris_rips",
+    input = "coordinates"
   ),
   "ripserr"
 )
@@ -205,7 +230,7 @@ expect_equal(
 expect_equal(
   recommend_engine(
     filtration = "alpha",
-    input = "point_cloud"
+    input = "coordinates"
   ),
   "TDA"
 )

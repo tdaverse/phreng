@@ -53,7 +53,12 @@ You can also check which classes are supported for a particular filtration and/o
 ```{r}
 available_classes(
   filtration = "vietoris_rips",
-  input = "point_cloud"
+  input = "distances"
+)
+
+available_classes(
+  filtration = "vietoris_rips",
+  input = "coordinates"
 )
 
 available_classes(
@@ -70,7 +75,7 @@ Finally, you can use `recommend_engine()` to choose an appropriate engine.
 ```{r}
 recommend_engine(
   filtration = "vietoris_rips",
-  input = "point_cloud"
+  input = "coordinates"
 )
 ```
 
@@ -78,16 +83,16 @@ recommend_engine(
 
 The user will need to call two functions. The first function creates a *specification* that encapsulates which type of data object and method for computing persistence are being used. The second function takes the specification from the first function and the data for which you are computing persistence.
 
-Two specifications designed for point cloud data will be created.
+Two specifications designed for coordinate data will be created.
 
 ```{r}
-spec1 <- PersistencePointCloud(filtration = "vietoris_rips", engine = "ripserr", max_dimension = 2)
-spec2 <- PersistencePointCloud(filtration = "vietoris_rips", engine = "TDA", max_dimension = 2)
+spec1 <- PersistenceCoordinates(filtration = "vietoris_rips", engine = "ripserr", max_dimension = 2)
+spec2 <- PersistenceCoordinates(filtration = "vietoris_rips", engine = "TDA", max_dimension = 2)
 ```
 
 This specification chooses which R package and implementation, called the *engine*, will be used to compute the persistence. It also chooses which filtration the computation will implement. There are other options the user can specify such as maximum scale of the filtration or which `TDA` library to be used.
 
-The persistence computation will now be completed. The data set `noisy_circle_points` will be used as the example point cloud data.
+The persistence computation will now be completed. The data set `noisy_circle_points` will be used as the example coordinate data.
 
 ```{r}
 out1 <- compute_persistence(spec1, phutil::noisy_circle_points)
@@ -96,7 +101,7 @@ out1
 out2 
 ```
 
-This same workflow can be replicated with the other available `Persistence_<math object>` specifications such as `PersistenceGrid`.
+This same workflow can be replicated with the other available `Persistence_<math object>` specifications.
 
 ### Equivalent Output with Minor Differences
 
@@ -111,7 +116,7 @@ The values of the births and deaths are same until the $10^{-8}$ths place. Some 
 
 ## Updating Specifications
 
-This package is designed using `S7`, and the specifications defined by `Persistence_<math object>` are `S7` objects.
+This package is designed using the `S7` package, and the specifications defined by `Persistence_<math object>` are `S7` objects.
 After a specification has been defined, it can be updated using the \@ operator. 
 
 ```{r}

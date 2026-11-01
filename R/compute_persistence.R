@@ -9,8 +9,8 @@ class_dist <- new_S3_class("dist")
 #'   user specification and the class of the data. The function standardizes
 #'   output by converting it to a `persistence` object.
 #'
-#' @param object user specification of class [PersistencePointCloud] or
-#'   [PersistenceGrid]
+#' @param object user specification of class [PersistenceDistances],
+#'   [PersistenceCoordinates], or [PersistenceGrid]
 #' @param data object on which to compute persistent homology, must be of a
 #'   class compatible with object
 #' @param ... additional engine-specific arguments
@@ -25,7 +25,7 @@ compute_persistence <- new_generic("compute_persistence", c("object", "data"))
 
 method(
   compute_persistence,
-  list(PersistencePointCloud, class_dist)
+  list(PersistenceDistances, class_dist)
 ) <- function(object, data) {
   check_packages(object)
   res <- NULL
@@ -39,32 +39,36 @@ method(
       )
     )
   } else if (object@engine == "TDA") {
-    if (object@filtration == "vietoris_rips") {
-      res <- TDA::ripsDiag(
-        data,
-        library = ifelse(is.na(object@library), "Dionysus", object@library),
-        maxdimension = object@max_dimension,
-        dist = "arbitrary",
-        maxscale = ifelse(is.na(object@max_diameter),
-          max(data),
-          object@max_diameter
-        )
+    res <- TDA::ripsDiag(
+      data,
+      library = ifelse(is.na(object@library), "Dionysus", object@library),
+      maxdimension = object@max_dimension,
+      dist = "arbitrary",
+      maxscale = ifelse(is.na(object@max_diameter),
+        max(data),
+        object@max_diameter
       )
-    }
-    if (object@filtration == "alpha") {
-      stop(paste(
-        "`alpha` filtrations are not",
-        "supported for dist objects. Please choose a different filtration."
-      ))
-    }
+    )
   }
   res <- as_persistence(res)
   res
 }
 
+# TODO: Allow this, setting `distance_metric = "euclidean"`.
 method(
   compute_persistence,
-  list(PersistencePointCloud, class_double)
+  list(PersistenceDistances, class_double)
+) <- function(object, data) {
+  stop(
+    "Data must be a `dist` object for `PersistenceDistances()`. ",
+    "Use `PersistenceCoordinates()` for coordinate matrices or coerce ",
+    "distance matrices with `as.dist()`."
+  )
+}
+
+method(
+  compute_persistence,
+  list(PersistenceCoordinates, class_double)
 ) <- function(object, data) {
   check_packages(object)
   res <- NULL
@@ -123,7 +127,7 @@ method(
     res <- as_persistence(res)
     res
   } else {
-    stop("Data must be a matrix or an array for `PersistencePointCloud()`.")
+    stop("Data must be a matrix or an array for `PersistenceCoordinates()`.")
   }
 }
 

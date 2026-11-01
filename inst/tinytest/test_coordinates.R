@@ -1,4 +1,4 @@
-spec <- PersistencePointCloud(
+spec <- PersistenceCoordinates(
   filtration = "vietoris_rips",
   engine = "ripserr",
   max_dimension = 1,
@@ -6,7 +6,7 @@ spec <- PersistencePointCloud(
 )
 
 # constructor test
-expect_inherits(spec, "phreng::PersistencePointCloud")
+expect_inherits(spec, "phreng::PersistenceCoordinates")
 expect_inherits(spec, "phreng::Persistence")
 expect_equal(spec@filtration, "vietoris_rips")
 expect_equal(spec@engine, "ripserr")
@@ -16,9 +16,9 @@ expect_equal(spec@max_radius, 1)
 
 
 # default argument test
-spec <- PersistencePointCloud()
+spec <- PersistenceCoordinates()
 
-expect_inherits(spec, "phreng::PersistencePointCloud")
+expect_inherits(spec, "phreng::PersistenceCoordinates")
 expect_equal(spec@engine, "TDA")
 expect_true(is.na(spec@library))
 expect_equal(spec@max_dimension, 1)
@@ -27,85 +27,85 @@ expect_true(is.na(spec@max_radius))
 expect_true(is.na(spec@max_diameter))
 
 # max_diameter and max_radius test
-spec <- PersistencePointCloud(max_diameter = 10)
+spec <- PersistenceCoordinates(max_diameter = 10)
 
 expect_equal(spec@max_diameter, 10)
 expect_equal(spec@max_radius, 5)
 
 # max_diameter boundary test
-spec <- PersistencePointCloud(max_diameter = 0)
+spec <- PersistenceCoordinates(max_diameter = 0)
 
 expect_equal(spec@max_diameter, 0)
 expect_equal(spec@max_radius, 0)
 
 # max_dimension boundary test
-spec <- PersistencePointCloud(max_dimension = 0)
+spec <- PersistenceCoordinates(max_dimension = 0)
 
 expect_equal(spec@max_dimension, 0)
 
 expect_error(
-  PersistencePointCloud(filtration = "unrecognized"),
+  PersistenceCoordinates(filtration = "unrecognized"),
   "must be one of"
 )
 
 # library value tests
-spec <- PersistencePointCloud(library = "GUDHI")
+spec <- PersistenceCoordinates(library = "GUDHI")
 expect_equal(spec@library, "GUDHI")
 
-spec <- PersistencePointCloud(library = "PHAT")
+spec <- PersistenceCoordinates(library = "PHAT")
 expect_equal(spec@library, "PHAT")
 
-spec <- PersistencePointCloud(library = "Dionysus")
+spec <- PersistenceCoordinates(library = "Dionysus")
 expect_equal(spec@library, "Dionysus")
 
 # validator tests
 expect_error(
-  PersistencePointCloud(engine = "bad_engine"),
+  PersistenceCoordinates(engine = "bad_engine"),
   "TDA"
 )
 expect_error(
-  PersistencePointCloud(engine = "bad_engine"),
+  PersistenceCoordinates(engine = "bad_engine"),
   "ripserr"
 )
 expect_error(
-  PersistencePointCloud(library = "bad_engine"),
+  PersistenceCoordinates(library = "bad_engine"),
   "GUDHI"
 )
 expect_error(
-  PersistencePointCloud(filtration = "bad_filtration"),
+  PersistenceCoordinates(filtration = "bad_filtration"),
   "vietoris_rips"
 )
 
 expect_error(
-  PersistencePointCloud(filtration = "bad_filtration"),
+  PersistenceCoordinates(filtration = "bad_filtration"),
   "alpha"
 )
 expect_error(
-  PersistencePointCloud(filtration = "bad_filtration"),
+  PersistenceCoordinates(filtration = "bad_filtration"),
   "cech"
 )
 expect_error(
-  PersistencePointCloud(max_dimension = -1),
+  PersistenceCoordinates(max_dimension = -1),
   "non-negative"
 )
 expect_error(
-  PersistencePointCloud(max_dimension = 1.5),
+  PersistenceCoordinates(max_dimension = 1.5),
   "integer"
 )
 expect_error(
-  PersistencePointCloud(engine = "ripserr", library = "GUDHI"),
+  PersistenceCoordinates(engine = "ripserr", library = "GUDHI"),
   "TDA"
 )
 expect_error(
-  PersistencePointCloud(filtration = "alpha", engine = "ripserr"),
+  PersistenceCoordinates(filtration = "alpha", engine = "ripserr"),
   "TDA"
 )
 
 # engine value tests
-spec <- PersistencePointCloud(engine = "TDA")
+spec <- PersistenceCoordinates(engine = "TDA")
 expect_equal(spec@engine, "TDA")
 
-spec <- PersistencePointCloud(filtration = "vietoris_rips", engine = "ripserr")
+spec <- PersistenceCoordinates(filtration = "vietoris_rips", engine = "ripserr")
 expect_equal(spec@engine, "ripserr")
 
 
@@ -124,12 +124,12 @@ exit_if_not(
   requireNamespace("ripserr", quietly = TRUE),
   requireNamespace("phutil", quietly = TRUE)
 )
-data <- eurodist
-spec <- PersistencePointCloud(
+data <- phutil::noisy_circle_points
+spec <- PersistenceCoordinates(
   filtration = "vietoris_rips",
   engine = "ripserr",
   max_dimension = 1,
-  max_diameter = 2000
+  max_diameter = 3
 )
 out <- compute_persistence(spec, data)
 expect_inherits(out, "persistence")
