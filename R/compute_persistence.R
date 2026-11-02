@@ -54,15 +54,19 @@ method(
   res
 }
 
-# TODO: Allow this, setting `distance_metric = "euclidean"`.
 method(
   compute_persistence,
   list(PersistenceDistances, class_double)
 ) <- function(object, data) {
-  stop(
-    "Data must be a `dist` object for `PersistenceDistances()`. ",
-    "Use `PersistenceCoordinates()` for coordinate matrices or coerce ",
-    "distance matrices with `as.dist()`."
+  if (!is.matrix(data)) {
+    stop(
+      "Data must be a matrix or a `dist` object for ",
+      "`PersistenceDistances()`."
+    )
+  }
+  compute_persistence(
+    object,
+    stats::dist(data, method = "euclidean")
   )
 }
 
@@ -73,24 +77,39 @@ method(
   check_packages(object)
   res <- NULL
   if (is.matrix(data) || is.array(data)) {
+    # TODO: Store a table like `engine_metadata` for engine--filtration distance
+    # options.
+    if (object@filtration == "alpha" &&
+      object@distance_metric != "euclidean") {
+      stop(
+        "Engines only support alpha filtrations using euclidean distance."
+      )
+    }
+    data_dist <- NULL
+    if (object@filtration == "vietoris_rips" &&
+      object@distance_metric != "euclidean") {
+      data_dist <- stats::dist(data, method = object@distance_metric)
+    }
     if (object@engine == "ripserr") {
       res <- ripserr::vietoris_rips(
-        data,
+        if (is.null(data_dist)) data else data_dist,
         max_dim = object@max_dimension,
-        threshold = ifelse(is.na(object@max_diameter),
-          max(dist(data)),
+        threshold = ifelse(
+          is.na(object@max_diameter),
+          if (is.null(data_dist)) max(dist(data)) else max(data_dist),
           object@max_diameter
         )
       )
     } else if (object@engine == "TDA") {
       if (object@filtration == "vietoris_rips") {
         res <- TDA::ripsDiag(
-          data,
-          dist = "euclidean",
+          if (is.null(data_dist)) data else data_dist,
+          dist = if (is.null(data_dist)) "euclidean" else "arbitrary",
           library = ifelse(is.na(object@library), "GUDHI", object@library),
           maxdimension = object@max_dimension,
-          maxscale = ifelse(is.na(object@max_diameter),
-            max(dist(data)),
+          maxscale = ifelse(
+            is.na(object@max_diameter),
+            if (is.null(data_dist)) max(dist(data)) else max(data_dist),
             object@max_diameter
           )
         )

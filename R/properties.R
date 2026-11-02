@@ -22,6 +22,17 @@ valid_filtrations <- c(
   grid_filtrations
 )
 
+# TODO: Support minkowski metrics for arbitrary powers.
+# TODO: Support {proxy} metrics.
+distance_metrics <- c(
+  "euclidean",
+  "maximum",
+  "manhattan",
+  "canberra",
+  "binary",
+  "minkowski"
+)
+
 filtration_type_distances <- new_property(
   class = class_character,
   validator = function(value) {
@@ -65,6 +76,16 @@ filtration_type_grid <- new_property(
   },
 
   default = "cubical"
+)
+
+distance_metric_type <- new_property(
+  class = class_character,
+  validator = function(value) {
+    if (length(value) != 1L || ! (value %in% distance_metrics)) {
+      paste("must be one of", paste(distance_metrics, collapse = ", "))
+    }
+  },
+  default = "euclidean"
 )
 
 max_dimension_type <- new_property(

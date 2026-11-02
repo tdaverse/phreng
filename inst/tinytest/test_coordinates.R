@@ -13,6 +13,7 @@ expect_equal(spec@engine, "ripserr")
 expect_equal(spec@max_dimension, 1)
 expect_equal(spec@max_diameter, 2)
 expect_equal(spec@max_radius, 1)
+expect_equal(spec@distance_metric, "euclidean")
 
 
 # default argument test
@@ -23,6 +24,7 @@ expect_equal(spec@engine, "TDA")
 expect_true(is.na(spec@library))
 expect_equal(spec@max_dimension, 1)
 expect_equal(spec@filtration, "alpha")
+expect_equal(spec@distance_metric, "euclidean")
 expect_true(is.na(spec@max_radius))
 expect_true(is.na(spec@max_diameter))
 
@@ -42,6 +44,23 @@ expect_equal(spec@max_radius, 0)
 spec <- PersistenceCoordinates(max_dimension = 0)
 
 expect_equal(spec@max_dimension, 0)
+
+# `distance_metric` tests
+for (metric in c(
+  "euclidean", "maximum", "manhattan", "canberra", "binary", "minkowski"
+)) {
+  spec <- PersistenceCoordinates(distance_metric = metric)
+  expect_equal(spec@distance_metric, metric)
+}
+
+expect_error(
+  PersistenceCoordinates(distance_metric = "unrecognized"),
+  "must be one of"
+)
+expect_error(
+  PersistenceCoordinates(distance_metric = c("euclidean", "manhattan")),
+  "must be one of"
+)
 
 expect_error(
   PersistenceCoordinates(filtration = "unrecognized"),
@@ -108,7 +127,6 @@ expect_equal(spec@engine, "TDA")
 spec <- PersistenceCoordinates(filtration = "vietoris_rips", engine = "ripserr")
 expect_equal(spec@engine, "ripserr")
 
-
 # data type test
 expect_error(
   compute_persistence(spec, as.double(1:5)),
@@ -121,15 +139,51 @@ expect_error(
 
 # compute test
 exit_if_not(
-  requireNamespace("ripserr", quietly = TRUE),
   requireNamespace("phutil", quietly = TRUE)
 )
 data <- phutil::noisy_circle_points
-spec <- PersistenceCoordinates(
-  filtration = "vietoris_rips",
-  engine = "ripserr",
-  max_dimension = 1,
-  max_diameter = 3
-)
-out <- compute_persistence(spec, data)
-expect_inherits(out, "persistence")
+
+# ripserr tests
+if (requireNamespace("ripserr", quietly = TRUE)) {
+  spec <- PersistenceCoordinates(
+    filtration = "vietoris_rips",
+    engine = "ripserr",
+    max_dimension = 1,
+    max_diameter = 3
+  )
+  out <- compute_persistence(spec, data)
+  expect_inherits(out, "persistence")
+
+  # non-euclidean metric
+  spec <- PersistenceCoordinates(
+    filtration = "vietoris_rips",
+    engine = "ripserr",
+    distance_metric = "manhattan",
+    max_dimension = 1,
+    max_diameter = 3
+  )
+  out <- compute_persistence(spec, data)
+  expect_inherits(out, "persistence")
+}
+
+# TDA tests
+if (requireNamespace("TDA", quietly = TRUE)) {
+  spec <- PersistenceCoordinates(
+    filtration = "vietoris_rips",
+    engine = "TDA",
+    max_dimension = 1,
+    max_diameter = 3
+  )
+  out <- compute_persistence(spec, data)
+  expect_inherits(out, "persistence")
+
+  spec <- PersistenceCoordinates(
+    filtration = "vietoris_rips",
+    engine = "TDA",
+    distance_metric = "manhattan",
+    max_dimension = 1,
+    max_diameter = 3
+  )
+  out <- compute_persistence(spec, data)
+  expect_inherits(out, "persistence")
+}
