@@ -49,7 +49,8 @@ PersistenceDistances <- new_class(
   )
 )
 
-# TODO: Introduce a `distance_metric` property that defaults to `"euclidean"`.
+#' @param distance_metric character; metric used to compute pairwise distances
+#'   from coordinate matrices
 #' @rdname Persistence_classes
 #' @export
 PersistenceCoordinates <- new_class(
@@ -57,6 +58,7 @@ PersistenceCoordinates <- new_class(
   parent = Persistence,
   properties = list(
     filtration = filtration_type_coordinates,
+    distance_metric = distance_metric_type,
     max_radius = max_radius_type,
     max_diameter = max_diameter_type
   ),

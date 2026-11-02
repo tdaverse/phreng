@@ -91,18 +91,6 @@ expect_equal(spec@engine, "TDA")
 spec <- PersistenceDistances(filtration = "vietoris_rips", engine = "ripserr")
 expect_equal(spec@engine, "ripserr")
 
-# numeric matrices are not distances
-spec <- PersistenceDistances(
-  filtration = "vietoris_rips",
-  engine = "ripserr",
-  max_dimension = 1,
-  max_diameter = 2
-)
-expect_error(
-  compute_persistence(spec, as.matrix(eurodist)),
-  "dist"
-)
-
 # compute test
 exit_if_not(
   requireNamespace("ripserr", quietly = TRUE),
@@ -117,6 +105,26 @@ spec <- PersistenceDistances(
 )
 out <- compute_persistence(spec, data)
 expect_inherits(out, "persistence")
+
+# coordinate matrix
+coords <- matrix(
+  c(0, 0, 1, 0, 0, 1, 1, 1),
+  ncol = 2,
+  byrow = TRUE
+)
+spec <- PersistenceDistances(
+  filtration = "vietoris_rips",
+  engine = "ripserr",
+  max_dimension = 1,
+  max_diameter = 3
+)
+out <- compute_persistence(spec, coords)
+expect_inherits(out, "persistence")
+# numeric vectors are not coordinate matrices
+expect_error(
+  compute_persistence(spec, as.double(1:5)),
+  "matrix"
+)
 
 # compute test with TDA
 if (requireNamespace("TDA", quietly = TRUE)) {

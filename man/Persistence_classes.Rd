@@ -22,6 +22,7 @@ PersistenceCoordinates(
   library = NA_character_,
   max_dimension = 1,
   filtration = "alpha",
+  distance_metric = "euclidean",
   max_diameter = NA_real_
 )
 
@@ -46,6 +47,9 @@ persistence}
 
 \item{max_diameter}{character; maximum threshold for rips filtration
 (distances and coordinates)}
+
+\item{distance_metric}{character; metric used to compute pairwise distances
+from coordinate matrices}
 
 \item{max_scale}{character; maximum threshold for rips filtration (grids)}
 
