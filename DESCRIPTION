@@ -18,8 +18,7 @@ License: MIT + file LICENSE
 Imports:
     S7,
     phutil,
-    stringr,
-    snakecase
+    stringr
 Suggests:
     TDA,
     ripserr,
@@ -41,4 +40,4 @@ Collate:
     'compute_persistence.R'
     'package_check.R'
     'recommend_engine.R'
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0

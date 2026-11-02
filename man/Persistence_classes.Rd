@@ -2,17 +2,26 @@
 % Please edit documentation in R/Persistence_classes.R
 \name{Persistence}
 \alias{Persistence}
-\alias{PersistencePointCloud}
+\alias{PersistenceDistances}
+\alias{PersistenceCoordinates}
 \alias{PersistenceGrid}
 \title{Classes for persistent homology specifications}
 \usage{
 Persistence(engine = "TDA", library = NA_character_, max_dimension = 1)
 
-PersistencePointCloud(
+PersistenceDistances(
   engine = "TDA",
   library = NA_character_,
   max_dimension = 1,
   filtration = "vietoris_rips",
+  max_diameter = NA_real_
+)
+
+PersistenceCoordinates(
+  engine = "TDA",
+  library = NA_character_,
+  max_dimension = 1,
+  filtration = "alpha",
   max_diameter = NA_real_
 )
 
@@ -36,7 +45,7 @@ persistence}
 \item{filtration}{character; filtration used in persistence calculation}
 
 \item{max_diameter}{character; maximum threshold for rips filtration
-(point clouds)}
+(distances and coordinates)}
 
 \item{max_scale}{character; maximum threshold for rips filtration (grids)}
 
@@ -46,11 +55,11 @@ persistence}
 S7 object storing user specification for calculating persistence
 }
 \description{
-These class define the parameters needed for persistence
-calculations and allow for reuse of specification for different data sets.
-The parent class, \code{Persistence}, stores core attributes that are common
-among all persistence calculations. The point cloud subclass is used to
-handle distance matrices and point cloud arrays. The grid subclass is
-used to handle matrix or array data treated as function values over a
-domain.
+These classes define the parameters needed for persistence
+calculations and allow for reuse of specifications for different data
+sets. The parent class, \code{Persistence}, stores core attributes that are
+common among all persistence calculations. The distances subclass is used
+to handle pairwise distance data, the coordinates subclass is used to
+handle coordinate matrices, and the grid subclass is used to handle
+matrix or array data treated as function values over a lattice.
 }

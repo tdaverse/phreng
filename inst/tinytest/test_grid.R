@@ -58,7 +58,7 @@ expect_error(
 )
 expect_error(
   PersistenceGrid(filtration = "bad_filtration"),
-  "must be vietoris_rips, cubical, alpha_shape, or alpha_complex"
+  "cubical"
 )
 expect_error(
   PersistenceGrid(max_dimension = -1),
