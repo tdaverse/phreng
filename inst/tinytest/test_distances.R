@@ -38,6 +38,31 @@ spec <- PersistenceDistances(max_dimension = 0)
 
 expect_equal(spec@max_dimension, 0)
 
+expect_error(
+  PersistenceDistances(max_dimension = NA_real_),
+  "non-negative"
+)
+
+expect_error(
+  PersistenceDistances(max_dimension = Inf),
+  "non-negative"
+)
+
+expect_error(
+  PersistenceDistances(filtration = c("vietoris_rips", "vietoris_rips")),
+  "must be one of"
+)
+
+expect_error(
+  PersistenceDistances(engine = c("TDA", "ripserr")),
+  "TDA"
+)
+
+expect_error(
+  PersistenceDistances(library = c("GUDHI", "PHAT")),
+  "GUDHI"
+)
+
 # filtration validator tests
 expect_error(
   PersistenceDistances(filtration = "alpha"),
@@ -101,6 +126,11 @@ spec <- PersistenceDistances(
 expect_error(
   compute_persistence(spec, as.matrix(eurodist)),
   "dist"
+)
+
+expect_error(
+  compute_persistence(PersistenceDistances(), eurodist, foo = 1),
+  "must be empty"
 )
 
 # compute test

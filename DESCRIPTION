@@ -16,6 +16,8 @@ URL: https://github.com/bobbyryan215/phreng
 BugReports: https://github.com/bobbyryan215/phreng/issues
 License: MIT + file LICENSE
 Imports:
+    cli,
+    rlang,
     S7,
     phutil,
     stringr

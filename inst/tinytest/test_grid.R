@@ -43,6 +43,16 @@ spec <- PersistenceGrid(max_scale = 0)
 
 expect_equal(spec@max_scale, 0)
 
+expect_error(
+  PersistenceGrid(filtration = c("cubical", "cubical")),
+  "must be one of"
+)
+
+expect_error(
+  PersistenceGrid(sublevel = c(TRUE, FALSE)),
+  "sublevel"
+)
+
 # validator tests
 expect_error(
   PersistenceGrid(engine = "bad_engine"),
@@ -78,7 +88,7 @@ expect_error(
 )
 expect_error(
   PersistenceGrid(sublevel = NA),
-  "TRUE or FALSE"
+  "TRUE.*FALSE"
 )
 
 expect_error(
@@ -99,6 +109,11 @@ expect_error(
 expect_error(
   compute_persistence(spec, as.double(1:5)),
   "array"
+)
+
+expect_error(
+  compute_persistence(PersistenceGrid(), volcano, foo = 1),
+  "must be empty"
 )
 
 # compute test

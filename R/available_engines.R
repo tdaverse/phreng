@@ -12,19 +12,27 @@
 #' @export
 
 available_engines <- function(filtration, input = NULL) {
-  supported <- engine_metadata[
-    engine_metadata$filtration == filtration,
-  ]
-
-  if(!is.null(input)) {
-    supported <- supported[
-      supported$input == input,
-    ]
+  rlang::arg_match0(filtration, unique(engine_metadata$filtration))
+  if (! is.null(input)) {
+    rlang::arg_match0(input, unique(engine_metadata$input))
   }
 
-  if (nrow(supported) == 0) {
-    stop("No engine supports the requested filtration and/or input.
-         Try available_filtrations() or available_inputs() to see supported options.")
+  engines <- unique(lookup_metadata(filtration, input)$engine)
+
+  if (length(engines) == 0) {
+    msg <- c(
+      "No engine is available for the requested filtration and input.",
+      "x" = "Filtration: {.val {filtration}}."
+    )
+    if (! is.null(input)) {
+      msg <- c(msg, "x" = "Input: {.val {input}}.")
+    }
+    msg <- c(
+      msg,
+      "i" = "See supported options with {.fn available_filtrations} and {.fn available_inputs}."
+    )
+    cli::cli_abort(msg, class = "phreng_error_no_engine")
   }
-  unique(supported$engine)
+
+  engines
 }

@@ -8,21 +8,17 @@
 
 
 check_packages <- function(object) {
-  if (object@engine == "ripserr") {
-    if (!requireNamespace("ripserr", quietly = TRUE)) {
-      stop(
-        "Package `ripserr` is required when engine `ripserr` is selected \n",
-        "Please install it with install.packages('ripserr')"
-      )
-    }
-  }
-  if (object@engine == "TDA") {
-    if (!requireNamespace("TDA", quietly = TRUE)) {
-      stop(
-        "Package `TDA` is required when engine `TDA` is selected \n",
-        "Please install it with:\n",
-        "install.packages('TDA')"
-      )
-    }
+  pkg <- object@engine
+
+  if (!rlang::is_installed(pkg)) {
+    cli::cli_abort(
+      c(
+        "The {.pkg {pkg}} package is required to use the {.val {object@engine}} engine.",
+        "i" = "Install it with {.run install.packages(\"{pkg}\")}."
+      ),
+      class = "phreng_error_missing_package",
+      package = pkg,
+      call = parent.frame()
+    )
   }
 }

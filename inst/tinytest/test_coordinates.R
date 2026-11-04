@@ -44,6 +44,11 @@ spec <- PersistenceCoordinates(max_dimension = 0)
 expect_equal(spec@max_dimension, 0)
 
 expect_error(
+  PersistenceCoordinates(filtration = c("alpha", "cech")),
+  "must be one of"
+)
+
+expect_error(
   PersistenceCoordinates(filtration = "unrecognized"),
   "must be one of"
 )
@@ -117,6 +122,15 @@ expect_error(
 expect_error(
   compute_persistence(spec, as.double(1:5)),
   "array"
+)
+
+expect_error(
+  compute_persistence(
+    PersistenceCoordinates(),
+    matrix(as.double(1:4), ncol = 2),
+    foo = 1
+  ),
+  "must be empty"
 )
 
 # compute test

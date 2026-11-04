@@ -13,7 +13,8 @@ compute_persistence(object, data, ...)
 \item{data}{object on which to compute persistent homology, must be of a
 class compatible with object}
 
-\item{...}{additional engine-specific arguments}
+\item{...}{reserved for future engine-specific arguments; currently must be
+empty}
 }
 \value{
 class \code{persistence} object

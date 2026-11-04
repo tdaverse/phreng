@@ -27,10 +27,9 @@ Persistence <- new_class(
     max_dimension = max_dimension_type
   ),
   validator = function(self) {
-    if (self@engine == "ripserr" & !is.na(self@library)) {
-      paste0(
-        "Library is only defined when engine is `TDA`. Please leave library ",
-        "blank or `NA_character_` when using the ripserr engine."
+    if (self@engine == "ripserr" && ! is.na(self@library)) {
+      cli::format_inline(
+        "{.arg library} is only supported with the {.val TDA} engine; leave it as {.val NA} when using the {.val ripserr} engine."
       )
     }
   }
@@ -61,19 +60,11 @@ PersistenceCoordinates <- new_class(
     max_diameter = max_diameter_type
   ),
   validator = function(self) {
-    if (self@engine == "ripserr" &
-      (self@filtration == "alpha")) {
-      paste0(
-        "Alpha complexes are only defined for the ",
-        "engine `TDA` using coordinates. Please use ",
-        "engine `TDA` for any alpha filtration."
-      )
+    if (self@engine == "ripserr" && self@filtration == "alpha") {
+      cli::format_inline("Alpha complexes require the {.val TDA} engine.")
     } else if (self@filtration == "cubical") {
-      paste0(
-        "Cubical filtrations are only defined for ",
-        "grid objects. Please select a different ",
-        "filtration such as `cech`, `alpha`, ",
-        "or `vietoris_rips`."
+      cli::format_inline(
+        "Cubical filtrations require a {.cls PersistenceGrid} object."
       )
     }
   }
@@ -93,9 +84,8 @@ PersistenceGrid <- new_class(
   ),
   validator = function(self) {
     if (self@filtration != "cubical") {
-      paste0(
-        "Only cubical filtrations are allowed for ",
-        "grid objects."
+      cli::format_inline(
+        "{.cls PersistenceGrid} objects require a {.val cubical} filtration."
       )
     }
   }

@@ -83,7 +83,12 @@ expect_equal(
 
 expect_error(
   available_engines("bad_filtration"),
-  "No engine supports"
+  "must be one of"
+)
+
+expect_error(
+  available_engines("vietoris_rips", input = "bad_input"),
+  "must be one of"
 )
 
 expect_error(
@@ -91,7 +96,7 @@ expect_error(
     filtration = "cubical",
     input = "coordinates"
   ),
-  "No engine supports"
+  "No engine is available"
 )
 
 
@@ -125,7 +130,7 @@ expect_equal(
 
 expect_error(
   available_inputs("bad_filtration"),
-  "No input supports"
+  "must be one of"
 )
 
 
@@ -181,7 +186,12 @@ expect_error(
     filtration = "bad_filtration",
     input = "coordinates"
   ),
-  "No class supports"
+  "must be one of"
+)
+
+expect_error(
+  available_classes(input = "bad_input"),
+  "must be one of"
 )
 
 expect_error(
@@ -189,7 +199,7 @@ expect_error(
     filtration = "vietoris_rips",
     input = "grid"
   ),
-  "No class supports"
+  "No class is available"
 )
 
 
@@ -233,4 +243,39 @@ expect_equal(
     input = "coordinates"
   ),
   "TDA"
+)
+
+expect_error(
+  recommend_engine(
+    filtration = "bad_filtration",
+    input = "coordinates"
+  ),
+  "must be one of"
+)
+
+recommendation <- NULL
+expect_message(
+  recommendation <- recommend_engine(
+    filtration = "cubical",
+    input = "coordinates"
+  ),
+  "No engine is available",
+  class = "phreng_message_no_engine"
+)
+expect_null(recommendation)
+
+expect_error(
+  available_engines(
+    filtration = "cubical",
+    input = "coordinates"
+  ),
+  class = "phreng_error_no_engine"
+)
+
+expect_error(
+  available_classes(
+    filtration = "vietoris_rips",
+    input = "grid"
+  ),
+  class = "phreng_error_no_class"
 )
