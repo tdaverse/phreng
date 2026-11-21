@@ -12,14 +12,21 @@
 #' @export
 
 recommend_engine <- function(filtration, input) {
-  engines <- available_engines(
-    filtration = filtration,
-    input = input
-  )
+  rlang::arg_match0(filtration, unique(engine_metadata$filtration))
+  rlang::arg_match0(input, unique(engine_metadata$input))
+
+  engines <- unique(lookup_metadata(filtration, input)$engine)
 
   if (length(engines) == 0) {
-    message("No engine exists for the requested filtration and input.
-            Try available_filtrations() or available_inputs() to see supported options.")
+    cli::cli_inform(
+      c(
+        "No engine is available for the requested filtration and input.",
+        "x" = "Filtration: {.val {filtration}}.",
+        "x" = "Input: {.val {input}}.",
+        "i" = "See supported options with {.fn available_filtrations} and {.fn available_inputs}."
+      ),
+      class = "phreng_message_no_engine"
+    )
     return(NULL)
   }
 
@@ -31,7 +38,11 @@ recommend_engine <- function(filtration, input) {
     return(engines)
   }
 
-  message("Multiple engines are available, but no recommended engine exists: ",
-          paste(engines, collapse = ", "),
-          ".")
+  cli::cli_inform(
+    c(
+      "Multiple engines are available for the requested filtration and input: {.val {engines}}.",
+      "i" = "Specify an engine explicitly in the specification."
+    ),
+    class = "phreng_message_no_recommendation"
+  )
 }

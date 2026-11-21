@@ -11,16 +11,22 @@
 #' @export
 
 available_inputs <- function(filtration = NULL) {
-  supported <- engine_metadata
-  if (!is.null(filtration)) {
-    supported <- supported[
-      supported$filtration == filtration,
-    ]
+  if (! is.null(filtration)) {
+    rlang::arg_match0(filtration, unique(engine_metadata$filtration))
   }
 
+  supported <- lookup_metadata(filtration)
+
   if (nrow(supported) == 0) {
-    stop("No input supports the requested filtration.
-         Try available_filtrations() to see supported filtrations.")
+    cli::cli_abort(
+      c(
+        "No input is available for the requested filtration.",
+        "x" = "Filtration: {.val {filtration}}.",
+        "i" = "See supported filtrations with {.fn available_filtrations}."
+      ),
+      class = "phreng_error_no_input"
+    )
   }
+
   unique(supported$input)
 }

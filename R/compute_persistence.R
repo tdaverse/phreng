@@ -13,7 +13,8 @@ class_dist <- new_S3_class("dist")
 #'   [PersistenceCoordinates], or [PersistenceGrid]
 #' @param data object on which to compute persistent homology, must be of a
 #'   class compatible with object
-#' @param ... additional engine-specific arguments
+#' @param ... reserved for future engine-specific arguments; currently must be
+#'   empty
 #'
 #' @return class `persistence` object
 #' @export
@@ -26,7 +27,8 @@ compute_persistence <- new_generic("compute_persistence", c("object", "data"))
 method(
   compute_persistence,
   list(PersistenceDistances, class_dist)
-) <- function(object, data) {
+) <- function(object, data, ...) {
+  rlang::check_dots_empty(call = rlang::caller_env(2))
   check_packages(object)
   res <- NULL
   if (object@engine == "ripserr") {
@@ -57,11 +59,22 @@ method(
 method(
   compute_persistence,
   list(PersistenceDistances, class_double)
-) <- function(object, data) {
-  if (!is.matrix(data)) {
-    stop(
-      "Data must be a matrix or a `dist` object for ",
-      "`PersistenceDistances()`."
+) <- function(object, data, ...) {
+  if (! is.matrix(data)) {
+    rlang::check_dots_empty(call = rlang::caller_env(2))
+    cli::cli_abort(
+      c(
+        "Data must be a {.cls dist} object or a coordinate {.cls matrix} for {.fn PersistenceDistances}."
+      ),
+      class = "phreng_error_bad_data"
+    )
+  }
+  if (isSymmetric(data)) {
+    cli::cli_warn(
+      c(
+        "{.arg data} was passed a symmetric matrix.",
+        "i" = "Pass {.cls dist} objects directly, not through {.fn as.matrix}."
+      )
     )
   }
   compute_persistence(
@@ -73,7 +86,8 @@ method(
 method(
   compute_persistence,
   list(PersistenceCoordinates, class_double)
-) <- function(object, data) {
+) <- function(object, data, ...) {
+  rlang::check_dots_empty(call = rlang::caller_env(2))
   check_packages(object)
   res <- NULL
   if (is.matrix(data) || is.array(data)) {
@@ -134,26 +148,32 @@ method(
             maxdimension = object@max_dimension
           )
         }
-        if (!is.na(object@max_diameter)) {
-          warning(paste(
-            "Currently `max_diameter` is not supported for `alpha`",
-            "filtrations. The displayed output",
-            "ignores the user entered `max_diameter`"
-          ))
+        if (! is.na(object@max_diameter)) {
+          cli::cli_warn(
+            c(
+              "{.arg max_diameter} is not supported for {.val alpha} filtrations.",
+              "i" = "The supplied value will be ignored."
+            ),
+            class = "phreng_warning_max_diameter_ignored"
+          )
         }
       }
     }
     res <- as_persistence(res)
     res
   } else {
-    stop("Data must be a matrix or an array for `PersistenceCoordinates()`.")
+    cli::cli_abort(
+      "Data must be a matrix or an array for {.fn PersistenceCoordinates}.",
+      class = "phreng_error_bad_data"
+    )
   }
 }
 
 method(
   compute_persistence,
   list(PersistenceGrid, class_double)
-) <- function(object, data) {
+) <- function(object, data, ...) {
+  rlang::check_dots_empty(call = rlang::caller_env(2))
   check_packages(object)
   res <- NULL
   if (is.matrix(data) || is.array(data)) {
@@ -170,15 +190,16 @@ method(
         res <- ripserr::cubical(
           -data,
           threshold = ifelse(is.na(object@max_scale),
-            max(dist(data)),
-            object@max_scale
+                             max(dist(data)),
+                             object@max_scale
           )
-        ) |>
-          as.data.frame() |>
-          transform(
-            birth = -birth,
-            death = -death
-          )
+        )
+        res <- as.data.frame(res)
+        res <- transform(
+          res,
+          birth = -birth,
+          death = -death
+        )
       }
     } else if (object@engine == "TDA") {
       res <- TDA::gridDiag(
@@ -191,6 +212,9 @@ method(
     res <- as_persistence(res)
     res
   } else {
-    stop("Data must be a matrix or an array for `PersistenceGrid()`.")
+    cli::cli_abort(
+      "Data must be a matrix or an array for {.fn PersistenceGrid}.",
+      class = "phreng_error_bad_data"
+    )
   }
 }

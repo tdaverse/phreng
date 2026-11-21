@@ -12,23 +12,29 @@
 #' @export
 
 available_classes <- function(filtration = NULL, input = NULL) {
-  supported <- engine_metadata
-
-  if (!is.null(filtration)) {
-    supported <- supported[
-      supported$filtration == filtration,
-    ]
+  if (! is.null(filtration)) {
+    rlang::arg_match0(filtration, unique(engine_metadata$filtration))
+  }
+  if (! is.null(input)) {
+    rlang::arg_match0(input, unique(engine_metadata$input))
   }
 
-  if (!is.null(input)) {
-    supported <- supported[
-      supported$input == input,
-    ]
-  }
+  supported <- lookup_metadata(filtration, input)
 
   if (nrow(supported) == 0) {
-    stop("No class supports the requested filtration and/or input.
-         Try available_filtrations() or available_inputs() to see supported options.")
+    msg <- "No class is available for the requested filtration and input."
+    if (! is.null(filtration)) {
+      msg <- c(msg, "x" = "Filtration: {.val {filtration}}.")
+    }
+    if (! is.null(input)) {
+      msg <- c(msg, "x" = "Input: {.val {input}}.")
+    }
+    msg <- c(
+      msg,
+      "i" = "See supported options with {.fn available_filtrations} and {.fn available_inputs}."
+    )
+    cli::cli_abort(msg, class = "phreng_error_no_class")
   }
+
   unique(supported$class)
 }
