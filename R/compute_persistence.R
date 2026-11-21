@@ -163,15 +163,16 @@ method(
         res <- ripserr::cubical(
           -data,
           threshold = ifelse(is.na(object@max_scale),
-            max(dist(data)),
-            object@max_scale
+                             max(dist(data)),
+                             object@max_scale
           )
-        ) |>
-          as.data.frame() |>
-          transform(
-            birth = -birth,
-            death = -death
-          )
+        )
+        res <- as.data.frame(res)
+        res <- transform(
+          res,
+          birth = -birth,
+          death = -death
+        )
       }
     } else if (object@engine == "TDA") {
       res <- TDA::gridDiag(
