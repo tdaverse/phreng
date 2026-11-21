@@ -1,6 +1,6 @@
 Package: phreng
 Title: A Common API for Persistent Homology Calculations
-Version: 0.0.0.9001
+Version: 0.0.0.9002
 Authors@R: c(
     person("Jason Cory", "Brunson", email = "cornelioid@gmail.com", role = c("aut", "cre"), comment= c(ORCID = "0000-0003-3126-9494")),
     person("Robert", "Ryan", role = "aut"),
