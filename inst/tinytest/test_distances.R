@@ -123,9 +123,9 @@ spec <- PersistenceDistances(
   max_dimension = 1,
   max_diameter = 2
 )
-expect_error(
+expect_warning(
   compute_persistence(spec, as.matrix(eurodist)),
-  "dist"
+  "as.matrix"
 )
 
 expect_error(
@@ -147,6 +147,26 @@ spec <- PersistenceDistances(
 )
 out <- compute_persistence(spec, data)
 expect_inherits(out, "persistence")
+
+# coordinate matrix
+coords <- matrix(
+  c(0, 0, 1, 0, 0, 1, 1, 1),
+  ncol = 2,
+  byrow = TRUE
+)
+spec <- PersistenceDistances(
+  filtration = "vietoris_rips",
+  engine = "ripserr",
+  max_dimension = 1,
+  max_diameter = 3
+)
+out <- compute_persistence(spec, coords)
+expect_inherits(out, "persistence")
+# numeric vectors are not recognized as distances
+expect_error(
+  compute_persistence(spec, as.double(1:5)),
+  "dist"
+)
 
 # compute test with TDA
 if (requireNamespace("TDA", quietly = TRUE)) {
